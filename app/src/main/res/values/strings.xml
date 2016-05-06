@@ -2,4 +2,11 @@
     <string name="app_name">Adomile</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <!--Tab titles-->
+    <string name="tab_summary">Summary</string>
+    <string name="tab_register">Register</string>
+    <string name="tab_log">Log</string>
+
+    <string name="empty_log_list">You have no registered trips yet</string>
 </resources>

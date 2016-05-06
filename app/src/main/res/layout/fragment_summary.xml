@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_edge_margin"
+            android:layout_marginLeft="@dimen/card_edge_margin"
+            android:layout_marginRight="@dimen/card_edge_margin"
+            android:layout_marginStart="@dimen/card_edge_margin"
+            android:layout_marginEnd="@dimen/card_edge_margin"
+            android:layout_marginBottom="@dimen/card_edge_margin"
+            card_view:cardCornerRadius="2dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp">
+
+
+                <lecho.lib.hellocharts.view.PieChartView
+                    android:id="@+id/summary_chart"
+                    android:layout_width="324dp"
+                    android:layout_height="324dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp">
+
+
+                    <TextView
+                        android:id="@+id/summary_total_private_km"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="56sp"
+                        android:text="820"
+                        tools:text="820" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/summary_total_private_km"
+                        android:layout_alignBottom="@id/summary_total_private_km"
+                        android:paddingBottom="8dp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp"
+                        android:text="km"
+                        tools:text="km" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-8dp"
+                        android:layout_below="@id/summary_total_private_km"
+                        android:textColor="@color/abc_secondary_text_material_light"
+                        android:textSize="16sp"
+                        android:text="Private"
+                        tools:text="Private" />
+
+                    <TextView
+                        android:id="@+id/summary_total_work_km_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignBottom="@id/summary_total_private_km"
+                        android:paddingBottom="8dp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp"
+                        android:text="km"
+                        tools:text="km" />
+
+                    <TextView
+                        android:id="@+id/summary_total_work_km"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/summary_total_work_km_label"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="56sp"
+                        android:text="265"
+                        tools:text="265" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-8dp"
+                        android:layout_below="@id/summary_total_work_km"
+                        android:layout_alignLeft="@+id/summary_total_work_km"
+                        android:textColor="@color/abc_secondary_text_material_light"
+                        android:textSize="16sp"
+                        android:text="Work"
+                        tools:text="Work" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/summary_card_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/card_edge_margin"
+            android:layout_marginRight="@dimen/card_edge_margin"
+            android:layout_marginStart="@dimen/card_edge_margin"
+            android:layout_marginEnd="@dimen/card_edge_margin"
+            android:layout_marginBottom="@dimen/card_edge_margin"
+            card_view:cardCornerRadius="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_calendar_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="48dp"
+                        android:layout_marginStart="48dp"
+                        android:text="Period"/>
+
+                    <TextView
+                        android:id="@+id/summary_card_period"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        tools:text="1 May - 31 May"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_ray_start_arrow_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="48dp"
+                        android:layout_marginStart="48dp"
+                        android:text="Inbound km"/>
+
+                    <TextView
+                        android:id="@+id/summary_card_inbound_km"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        tools:text="4689"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_ray_end_arrow_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="48dp"
+                        android:layout_marginStart="48dp"
+                        android:text="Outbound km"/>
+
+                    <TextView
+                        android:id="@+id/summary_card_outbound_km"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        tools:text="5074"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</ScrollView>
