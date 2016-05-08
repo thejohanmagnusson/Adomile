@@ -9,12 +9,12 @@ import static net.simonvt.schematic.annotation.DataType.Type.INTEGER;
 import static net.simonvt.schematic.annotation.DataType.Type.TEXT;
 
 public interface TripColumns {
-
+    // Database columns
     @DataType(INTEGER) @PrimaryKey @AutoIncrement String ID = "_id";
 
     @DataType(TEXT) @NotNull String Date = "date";
     @DataType(TEXT) @NotNull String Destination = "destination";
     @DataType(INTEGER) @NotNull String Mileage = "mileage";
-    @DataType(TEXT) String Notes = "notes";
+    @DataType(TEXT) String Note = "note";
 
 }

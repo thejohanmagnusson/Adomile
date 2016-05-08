@@ -18,6 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="se.johanmagnusson.android.adomile.TripProvider"
+            android:name="se.johanmagnusson.android.adomile.database.generated.TripProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>
