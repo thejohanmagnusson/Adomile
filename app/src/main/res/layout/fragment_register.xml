@@ -46,7 +46,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ic_calendar_black_24dp"/>
+                        android:src="@mipmap/ic_calendar_black_24dp"
+                        android:alpha="@dimen/icon_active_opacity"/>
 
                     <TextView
                         android:id="@+id/register_date"
@@ -67,7 +68,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ic_map_marker_black_24dp"/>
+                        android:src="@mipmap/ic_map_marker_black_24dp"
+                        android:alpha="@dimen/icon_active_opacity"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -87,7 +89,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ic_gauge_black_24dp"/>
+                        android:src="@mipmap/ic_gauge_black_24dp"
+                        android:alpha="@dimen/icon_active_opacity"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -107,7 +110,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ic_insert_comment_black_24dp"/>
+                        android:src="@mipmap/ic_insert_comment_black_24dp"
+                        android:alpha="@dimen/icon_active_opacity"/>
 
                     <EditText
                         android:layout_width="match_parent"

@@ -142,7 +142,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_calendar_black_24dp"/>
+                        android:src="@mipmap/ic_calendar_black_24dp"
+                        android:alpha="@dimen/icon_active_opacity"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -170,7 +171,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_ray_start_arrow_black_24dp"/>
+                        android:src="@mipmap/ic_ray_start_arrow_black_24dp"
+                        android:alpha="@dimen/icon_active_opacity"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -198,7 +200,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_ray_end_arrow_black_24dp"/>
+                        android:src="@mipmap/ic_ray_end_arrow_black_24dp"
+                        android:alpha="@dimen/icon_active_opacity"/>
 
                     <TextView
                         android:layout_width="wrap_content"
