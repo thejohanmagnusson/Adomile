@@ -1,5 +1,6 @@
 package se.johanmagnusson.android.adomile;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,14 +9,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.DatePicker;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Calendar;
+
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+
+    public static final String TAG = MainActivity.class.getName();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -75,38 +79,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    // DatePickerFragment/DatePickerDialog.OnDateSetListener
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        // Safe to cast since only RegisterFragment can call this
+        RegisterFragment fragment = (RegisterFragment) mSectionsPagerAdapter.getCurrentFragment();
 
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
+        if(fragment != null) {
+            final Calendar calendar = Calendar.getInstance();
+            calendar.set(year, monthOfYear, dayOfMonth);
+            fragment.setDate(calendar);
         }
     }
 
@@ -115,21 +97,37 @@ public class MainActivity extends AppCompatActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        private Fragment mCurrentFragment;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+
+        // Keep a reference to the current fragment so we can communicate with it
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if(getCurrentFragment() != object)
+                mCurrentFragment = (Fragment) object;
+
+            super.setPrimaryItem(container, position, object);
+        }
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
+                    Log.d(TAG, "------------- Get Summary fragment");
                     return new SummaryFragment();
                 case 1:
+                    Log.d(TAG, "------------- Get Register fragment");
                     return new RegisterFragment();
                 default:
+                    Log.d(TAG, "------------- Get Log fragment");
                     return new LogFragment();
             }
         }

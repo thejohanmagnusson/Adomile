@@ -28,7 +28,8 @@
                 android:id="@+id/trip_destination"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Destionation"/>
+                android:textColor="@color/abc_primary_text_material_light"
+                android:text="Destination"/>
 
             <TextView
                 android:id="@+id/trip_date"
@@ -48,6 +49,7 @@
                 android:id="@+id/trip_km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/abc_primary_text_material_light"
                 android:text="34km"/>
 
             <TextView

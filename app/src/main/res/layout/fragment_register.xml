@@ -33,7 +33,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="8dp"
-                    android:textColor="@color/abc_secondary_text_material_light"
+                    android:textColor="@color/abc_primary_text_material_light"
                     android:textSize="24sp"
                     android:text="Register trip"/>
 
@@ -49,11 +49,13 @@
                         android:src="@mipmap/ic_calendar_black_24dp"/>
 
                     <TextView
+                        android:id="@+id/register_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="72dp"
                         android:layout_gravity="center_vertical"
-                        android:text="3 May"/>
+                        android:textColor="@color/abc_primary_text_material_light"
+                        tools:text="3 May, 2016" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -72,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="72dp"
                         android:layout_gravity="center_vertical"
+                        android:textColor="@color/abc_primary_text_material_light"
                         android:text="Kemicentrum"/>
                 </FrameLayout>
 
@@ -91,6 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="72dp"
                         android:layout_gravity="center_vertical"
+                        android:textColor="@color/abc_primary_text_material_light"
                         android:text="5074"/>
                 </FrameLayout>
 
@@ -103,12 +107,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ic_note_outline_black_24dp"/>
+                        android:src="@mipmap/ic_insert_comment_black_24dp"/>
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="72dp"
+                        android:textColor="@color/abc_primary_text_material_light"
                         android:inputType="textMultiLine"
                         android:hint="Notes"
                         android:ems="12"
@@ -163,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:textColor="@color/abc_secondary_text_material_light"
+                    android:textColor="@color/abc_primary_text_material_light"
                     android:textSize="24sp"
                     android:text="Previous trip"/>
 
