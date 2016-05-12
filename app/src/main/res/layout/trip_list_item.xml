@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="72dp">
+    android:layout_height="72dp"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -29,13 +30,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/abc_primary_text_material_light"
-                android:text="Destination"/>
+                tools:text="Destination"/>
 
             <TextView
                 android:id="@+id/trip_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Today"/>
+                tools:text="Today"/>
         </LinearLayout>
 
         <LinearLayout
@@ -50,13 +51,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/abc_primary_text_material_light"
-                android:text="34km"/>
+                tools:text="34km"/>
 
             <TextView
-                android:id="@+id/trip_meter"
+                android:id="@+id/trip_mileage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5074"/>
+                tools:text="5074"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

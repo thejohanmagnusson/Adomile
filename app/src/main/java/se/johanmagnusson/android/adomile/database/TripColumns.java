@@ -16,5 +16,6 @@ public interface TripColumns {
     @DataType(TEXT) @NotNull String Destination = "destination";
     @DataType(INTEGER) @NotNull String Mileage = "mileage";
     @DataType(TEXT) String Note = "note";
+    @DataType(INTEGER) @NotNull String TripType = "trip_type";
 
 }

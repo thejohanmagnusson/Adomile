@@ -10,175 +10,156 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/card_edge_margin"
-            android:layout_marginLeft="@dimen/card_edge_margin"
-            android:layout_marginRight="@dimen/card_edge_margin"
-            android:layout_marginStart="@dimen/card_edge_margin"
-            android:layout_marginEnd="@dimen/card_edge_margin"
-            android:layout_marginBottom="@dimen/card_edge_margin"
-            card_view:cardCornerRadius="2dp">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/abc_primary_text_material_light"
+                android:textSize="24sp"
+                android:text="Register trip"/>
 
-                <TextView
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_calendar_black_24dp"
+                    android:alpha="@dimen/icon_active_opacity"/>
+
+                <TextView
+                    android:id="@+id/register_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/abc_primary_text_material_light"
-                    android:textSize="24sp"
-                    android:text="Register trip"/>
+                    tools:text="3 May, 2016" />
+            </FrameLayout>
 
-                <FrameLayout
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_map_marker_black_24dp"
+                    android:alpha="@dimen/icon_active_opacity"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ic_calendar_black_24dp"
-                        android:alpha="@dimen/icon_active_opacity"/>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/destination_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp">
 
-                    <TextView
-                        android:id="@+id/register_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="72dp"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/abc_primary_text_material_light"
-                        tools:text="3 May, 2016" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ic_map_marker_black_24dp"
-                        android:alpha="@dimen/icon_active_opacity"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="72dp"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/abc_primary_text_material_light"
-                        android:text="Kemicentrum"/>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ic_gauge_black_24dp"
-                        android:alpha="@dimen/icon_active_opacity"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="72dp"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/abc_primary_text_material_light"
-                        android:text="5074"/>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ic_insert_comment_black_24dp"
-                        android:alpha="@dimen/icon_active_opacity"/>
-
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="72dp"
                         android:textColor="@color/abc_primary_text_material_light"
-                        android:inputType="textMultiLine"
-                        android:hint="Notes"
-                        android:ems="12"
-                        android:lines="3"
-                        android:maxLines="3"
-                        android:maxLength="500"/>
+                        android:inputType="text"
+                        android:imeOptions="actionNext"
+                        android:hint="Destination"/>
 
-                </FrameLayout>
+                </android.support.design.widget.TextInputLayout>
+            </FrameLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="52dp"
-                    android:orientation="horizontal">
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Private"
-                        style="?attr/borderlessButtonStyle"/>
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Work"
-                        style="?attr/borderlessButtonStyle"/>
-                </LinearLayout>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/card_edge_margin"
-            android:layout_marginLeft="@dimen/card_edge_margin"
-            android:layout_marginRight="@dimen/card_edge_margin"
-            android:layout_marginStart="@dimen/card_edge_margin"
-            android:layout_marginEnd="@dimen/card_edge_margin"
-            android:layout_marginBottom="@dimen/card_edge_margin"
-            card_view:cardCornerRadius="2dp">
-
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="24dp">
+                android:layout_height="wrap_content">
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_gauge_black_24dp"
+                    android:alpha="@dimen/icon_active_opacity"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/mileage_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/abc_primary_text_material_light"
+                        android:inputType="number"
+                        android:ems="6"
+                        android:imeOptions="actionDone"
+                        android:hint="Mileage"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_insert_comment_black_24dp"
+                    android:alpha="@dimen/icon_active_opacity"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
                     android:textColor="@color/abc_primary_text_material_light"
-                    android:textSize="24sp"
-                    android:text="Previous trip"/>
+                    android:inputType="textMultiLine"
+                    android:hint="Notes"
+                    android:ems="12"
+                    android:lines="3"
+                    android:maxLines="3"
+                    android:maxLength="500"/>
 
-                <include layout="@layout/trip_list_item"/>
+            </FrameLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/private_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Private" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Work" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/previous_trip_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
+        </FrameLayout>
     </LinearLayout>
 </ScrollView>
