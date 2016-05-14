@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -39,10 +40,12 @@ public class RegisterFragment extends Fragment{
     private TextView mDate;
     private EditText mDestination;
     private EditText mMileage;
+    private EditText mNote;
     private Button mPrivate;
     private Button mWork;
     private ViewGroup mPreviousTripContainer;
     private View mTripCard;
+    private ImageView mTripCardIcon;
     private TextView mTripCardDestination;
     private TextView mTripCardDate;
     private TextView mTripCardKm;
@@ -69,8 +72,7 @@ public class RegisterFragment extends Fragment{
 
         mDestination = (EditText) root.findViewById(R.id.destination);
         mMileage = (EditText) root.findViewById(R.id.mileage);
-
-        //todo: handle add note
+        mNote = (EditText) root.findViewById(R.id.note);
 
         //todo: only enable buttons if valid input
         mPrivate = (Button) root.findViewById(R.id.private_button);
@@ -91,6 +93,7 @@ public class RegisterFragment extends Fragment{
 
         mPreviousTripContainer = (ViewGroup) root.findViewById(R.id.previous_trip_container);
         mTripCard = inflater.inflate(R.layout.previous_trip_card, null);
+        mTripCardIcon  = (ImageView) mTripCard.findViewById(R.id.icon);
         mTripCardDestination = (TextView) mTripCard.findViewById(R.id.trip_destination);
         mTripCardDate = (TextView) mTripCard.findViewById(R.id.trip_date);
         mTripCardKm = (TextView) mTripCard.findViewById(R.id.trip_km);
@@ -113,9 +116,8 @@ public class RegisterFragment extends Fragment{
                 mMileage.setText(savedInstanceState.getString(KEY_MILEAGE));
 
             // Note
-            //todo: add note
-//            if(savedInstanceState.containsKey(KEY_NOTE))
-//                mNote.getEditText().setText(savedInstanceState.getString(KEY_NOTE));
+            if(savedInstanceState.containsKey(KEY_NOTE))
+                mNote.setText(savedInstanceState.getString(KEY_NOTE));
 
             // Previous trip
             if(savedInstanceState.containsKey(KEY_PREVIOUS_TRIP)) {
@@ -135,8 +137,7 @@ public class RegisterFragment extends Fragment{
         cv.put(TripColumns.Date, mDate.getText().toString());
         cv.put(TripColumns.Destination, mDestination.getText().toString());
         cv.put(TripColumns.Mileage, Integer.parseInt(mMileage.getText().toString()));
-        //todo: add note
-        cv.put(TripColumns.Note, "Testing...");
+        cv.put(TripColumns.Note, mNote.getText().toString());
         cv.put(KEY_TRIP_TYPE, isWork ? WORK : PRIVATE);
 
         //todo: async?
@@ -163,8 +164,9 @@ public class RegisterFragment extends Fragment{
             mTripCardDate.setText(CursorHelper.getString(cursor, TripColumns.Date));
             mTripCardDestination.setText(CursorHelper.getString(cursor, TripColumns.Destination));
             mTripCardMileage.setText(CursorHelper.getString(cursor, TripColumns.Mileage));
-            //todo: add note
-            //todo: set icon, work or private
+
+            boolean isWork = CursorHelper.getInt(cursor, TripColumns.TripType) == WORK ? true : false;
+            mTripCardIcon.setImageResource( isWork ? R.mipmap.ic_work_black_48dp : R.mipmap.ic_account_circle_black_48dp);
         }
 
         //todo: calculate km with the trip before this one. show dash (-) if no previous trip
@@ -182,11 +184,8 @@ public class RegisterFragment extends Fragment{
         if(mMileage != null)
             outState.putString(KEY_MILEAGE, mMileage.getText().toString());
 
-        //todo: add note
-//        if(mNote != null)
-//            outState.putString(KEY_NOTE, mNote.getEditText().getText().toString());
-
-        //todo: work or private
+        if(mNote != null)
+            outState.putString(KEY_NOTE, mNote.getText().toString());
 
         if(mPreviousTrip != null)
             outState.putString(KEY_PREVIOUS_TRIP, mPreviousTrip.toString());
