@@ -59,21 +59,15 @@
                     android:src="@mipmap/ic_map_marker_black_24dp"
                     android:alpha="@dimen/icon_active_opacity"/>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/destination_input_layout"
+                <EditText
+                    android:id="@+id/destination"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/abc_primary_text_material_light"
-                        android:inputType="text"
-                        android:imeOptions="actionNext"
-                        android:hint="Destination"/>
-
-                </android.support.design.widget.TextInputLayout>
+                    android:layout_marginLeft="72dp"
+                    android:textColor="@color/abc_primary_text_material_light"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:hint="Destination"/>
             </FrameLayout>
 
             <FrameLayout
@@ -88,22 +82,16 @@
                     android:src="@mipmap/ic_gauge_black_24dp"
                     android:alpha="@dimen/icon_active_opacity"/>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/mileage_input_layout"
+                <EditText
+                    android:id="@+id/mileage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/abc_primary_text_material_light"
-                        android:inputType="number"
-                        android:ems="6"
-                        android:imeOptions="actionDone"
-                        android:hint="Mileage"/>
-
-                </android.support.design.widget.TextInputLayout>
+                    android:layout_marginLeft="72dp"
+                    android:textColor="@color/abc_primary_text_material_light"
+                    android:inputType="number"
+                    android:ems="6"
+                    android:imeOptions="actionDone"
+                    android:hint="Mileage"/>
             </FrameLayout>
 
             <FrameLayout
@@ -129,7 +117,6 @@
                     android:lines="3"
                     android:maxLines="3"
                     android:maxLength="500"/>
-
             </FrameLayout>
 
             <LinearLayout
@@ -152,7 +139,6 @@
                     android:layout_marginTop="16dp"
                     android:text="Work" />
             </LinearLayout>
-
         </LinearLayout>
 
         <FrameLayout
