@@ -1,12 +1,29 @@
 <resources>
     <string name="app_name">Adomile</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
 
     <!--Tab titles-->
     <string name="tab_summary">Summary</string>
     <string name="tab_register">Register</string>
     <string name="tab_log">Log</string>
 
+    <!-- Shared in multiple views-->
+    <string name="trip_type_private">Private</string>
+    <string name="trip_type_work">Work</string>
+
+    <!-- Register view -->
+    <string name="title_registration">Register trip</string>
+    <string name="destination">Destination</string>
+    <string name="mileage">Mileage</string>
+    <string name="note">Note</string>
+    <string name="title_previous_trip">Previous trip</string>
+
+    <!-- Summary view -->
+    <string name="period">Period</string>
+    <string name="inbound">Inbound km</string>
+    <string name="outbound">Outbound</string>
+
+    <!-- Log View -->
     <string name="empty_log_list">You have no registered trips yet</string>
+
 </resources>

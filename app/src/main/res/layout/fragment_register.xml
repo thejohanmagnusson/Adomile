@@ -67,7 +67,7 @@
                     android:textColor="@color/abc_primary_text_material_light"
                     android:inputType="text"
                     android:imeOptions="actionNext"
-                    android:hint="Destination"/>
+                    android:hint="@string/destination"/>
             </FrameLayout>
 
             <FrameLayout
@@ -91,7 +91,7 @@
                     android:inputType="number"
                     android:ems="6"
                     android:imeOptions="actionDone"
-                    android:hint="Mileage"/>
+                    android:hint="@string/mileage"/>
             </FrameLayout>
 
             <FrameLayout
@@ -112,7 +112,7 @@
                     android:layout_marginLeft="72dp"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:inputType="textMultiLine"
-                    android:hint="Notes"
+                    android:hint="@string/note"
                     android:ems="12"
                     android:lines="3"
                     android:maxLines="3"
@@ -130,14 +130,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginTop="16dp"
-                    android:text="Private" />
+                    android:text="@string/trip_type_private" />
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/work_button"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginTop="16dp"
-                    android:text="Work" />
+                    android:text="@string/trip_type_work" />
             </LinearLayout>
         </LinearLayout>
 

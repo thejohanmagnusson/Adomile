@@ -117,8 +117,6 @@ public class RegisterFragment extends Fragment{
 //            if(savedInstanceState.containsKey(KEY_NOTE))
 //                mNote.getEditText().setText(savedInstanceState.getString(KEY_NOTE));
 
-            //todo: work or private
-
             // Previous trip
             if(savedInstanceState.containsKey(KEY_PREVIOUS_TRIP)) {
                 mPreviousTrip.parse(savedInstanceState.getString(KEY_PREVIOUS_TRIP));
@@ -157,6 +155,7 @@ public class RegisterFragment extends Fragment{
             mPreviousTripContainer.addView(mTripCard);
         }
 
+        //todo: async?
         Cursor cursor = getActivity().getContentResolver().query(previousTrip, null, null, null, null);
 
         if(cursor.moveToFirst()) {
