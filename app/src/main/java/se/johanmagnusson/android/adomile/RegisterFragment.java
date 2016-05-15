@@ -1,6 +1,7 @@
 package se.johanmagnusson.android.adomile;
 
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,7 +22,7 @@ import java.util.Calendar;
 
 import se.johanmagnusson.android.adomile.database.CursorHelper;
 import se.johanmagnusson.android.adomile.database.TripColumns;
-import se.johanmagnusson.android.adomile.database.TripProvider;
+import se.johanmagnusson.android.adomile.database.TripProvider.Trips;
 
 public class RegisterFragment extends Fragment{
 
@@ -51,7 +52,7 @@ public class RegisterFragment extends Fragment{
     private TextView mTripCardKm;
     private TextView mTripCardMileage;
 
-    private Uri mPreviousTrip;
+    private Uri mPreviousTripUri;
 
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd MMM, yyyy");
 
@@ -121,8 +122,8 @@ public class RegisterFragment extends Fragment{
 
             // Previous trip
             if(savedInstanceState.containsKey(KEY_PREVIOUS_TRIP)) {
-                mPreviousTrip.parse(savedInstanceState.getString(KEY_PREVIOUS_TRIP));
-                showPreviousTripCard(mPreviousTrip);
+                mPreviousTripUri.parse(savedInstanceState.getString(KEY_PREVIOUS_TRIP));
+                showPreviousTripCard(mPreviousTripUri);
             }
         }
         else {
@@ -141,15 +142,15 @@ public class RegisterFragment extends Fragment{
         cv.put(TripColumns.TripType, isWork ? WORK : PRIVATE);
 
         // The first trip registered will not have a previous trip
-        if(mPreviousTrip != null)
-            cv.put(TripColumns.PreviousTripId, mPreviousTrip.getLastPathSegment());
+        if(mPreviousTripUri != null)
+            cv.put(TripColumns.PreviousTripId, ContentUris.parseId(mPreviousTripUri));
 
         //todo: async?
-        Uri uri = getActivity().getContentResolver().insert(TripProvider.Trips.CONTENT_URI, cv);
+        Uri uri = getActivity().getContentResolver().insert(Trips.CONTENT_URI, cv);
 
         if(uri != null) {
-            mPreviousTrip = uri;
-            showPreviousTripCard(mPreviousTrip);
+            mPreviousTripUri = uri;
+            showPreviousTripCard(mPreviousTripUri);
         }
     }
 
@@ -159,20 +160,34 @@ public class RegisterFragment extends Fragment{
         if(mPreviousTripContainer.getChildCount() < 1)
             mPreviousTripContainer.addView(mTripCard);
 
-        //todo: async?
-        Cursor cursor = getActivity().getContentResolver().query(previousTrip, null, null, null, null);
+        Cursor previousTripCursor = getActivity().getContentResolver().query(previousTrip, null, null, null, null);
 
-        if(cursor.moveToFirst()) {
-            //todo: format date to "today" if current date
-            mTripCardDate.setText(CursorHelper.getString(cursor, TripColumns.Date));
-            mTripCardDestination.setText(CursorHelper.getString(cursor, TripColumns.Destination));
-            mTripCardMileage.setText(CursorHelper.getString(cursor, TripColumns.Mileage));
-
-            boolean isWork = CursorHelper.getInt(cursor, TripColumns.TripType) == WORK ? true : false;
+        if(previousTripCursor.moveToFirst()) {
+            boolean isWork = CursorHelper.getInt(previousTripCursor, TripColumns.TripType) == WORK ? true : false;
             mTripCardIcon.setImageResource(Utility.getResourceForTripIcon(isWork));
-        }
 
-        //todo: calculate km with the trip before this one. show dash (-) if no previous trip
+            //todo: format date to "today" if current date
+            mTripCardDate.setText(CursorHelper.getString(previousTripCursor, TripColumns.Date));
+            mTripCardDestination.setText(CursorHelper.getString(previousTripCursor, TripColumns.Destination));
+
+            int mileage = CursorHelper.getInt(previousTripCursor, TripColumns.Mileage);
+            mTripCardMileage.setText(Integer.toString(mileage));
+
+            // Get start destination for the trip to calculate distance traveled (the trip before this one)
+            long startDestinationId;
+            startDestinationId = CursorHelper.getLong(previousTripCursor, TripColumns.PreviousTripId);
+
+            //todo: FIX - helper returns 0 on null cursor, results in wrong previous trip if this happens.
+            if(startDestinationId > 0) {
+                Cursor startDestinationCursor = getActivity().getContentResolver().query(Trips.withId(startDestinationId), null, null, null, null);
+
+                if(startDestinationCursor.moveToFirst()) {
+                    int startMileage = CursorHelper.getInt(startDestinationCursor, TripColumns.Mileage);
+
+                    mTripCardKm.setText(Integer.toString(mileage - startMileage));
+                }
+            }
+        }
     }
 
     @Override
@@ -190,8 +205,8 @@ public class RegisterFragment extends Fragment{
         if(mNote != null)
             outState.putString(KEY_NOTE, mNote.getText().toString());
 
-        if(mPreviousTrip != null)
-            outState.putString(KEY_PREVIOUS_TRIP, mPreviousTrip.toString());
+        if(mPreviousTripUri != null)
+            outState.putString(KEY_PREVIOUS_TRIP, mPreviousTripUri.toString());
 
         super.onSaveInstanceState(outState);
     }
