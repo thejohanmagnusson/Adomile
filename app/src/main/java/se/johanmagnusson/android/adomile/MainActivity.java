@@ -1,6 +1,7 @@
 package se.johanmagnusson.android.adomile;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,7 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, LogFragment.OnTripSelectedListener{
 
     public static final String TAG = MainActivity.class.getName();
 
@@ -90,6 +91,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             calendar.set(year, monthOfYear, dayOfMonth);
             fragment.setDate(calendar);
         }
+    }
+
+    // LogFragment.OnTripSelectedListener
+    @Override
+    public void onTripSelected(long id) {
+        //todo: check/handle if two pane view
+
+        Intent intent = new Intent(this, TripDetailActivity.class).putExtra(TripDetailFragment.TRIP_ID_KEY, id);
+        startActivity(intent);
     }
 
     /**

@@ -19,6 +19,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".TripDetailActivity"
+            android:label="@string/trip_details"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
         <provider
             android:authorities="se.johanmagnusson.android.adomile.TripProvider"
             android:name="se.johanmagnusson.android.adomile.database.generated.TripProvider"

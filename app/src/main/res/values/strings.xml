@@ -1,5 +1,9 @@
 <resources>
+    <!-- Toolbar -->
     <string name="app_name">Adomile</string>
+    <string name="trip_details">Details</string>
+
+    <!-- Menu items -->
     <string name="action_settings">Settings</string>
 
     <!--Tab titles-->
