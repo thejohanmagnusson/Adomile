@@ -154,6 +154,7 @@ public class RegisterFragment extends Fragment{
         }
     }
 
+    //todo: can cause crash on rotation whn parsing id
     private void showPreviousTripCard(Uri previousTrip) {
 
         // Is the card added to the view?
@@ -174,8 +175,7 @@ public class RegisterFragment extends Fragment{
             mTripCardMileage.setText(Integer.toString(mileage));
 
             // Get start destination for the trip to calculate distance traveled (the trip before this one)
-            long startDestinationId;
-            startDestinationId = CursorHelper.getLong(previousTripCursor, TripColumns.PreviousTripId);
+            long startDestinationId = CursorHelper.getLong(previousTripCursor, TripColumns.PreviousTripId);
 
             //todo: FIX - helper returns 0 on null cursor, results in wrong previous trip if this happens.
             if(startDestinationId > 0) {
