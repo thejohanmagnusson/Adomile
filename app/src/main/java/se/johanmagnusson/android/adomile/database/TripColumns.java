@@ -18,4 +18,6 @@ public interface TripColumns {
     @DataType(TEXT) String Note = "note";
     @DataType(INTEGER) @NotNull String TripType = "trip_type";
 
+    @DataType(INTEGER) String PreviousTripId = "previous_trip_id";
+
 }

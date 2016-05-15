@@ -138,7 +138,11 @@ public class RegisterFragment extends Fragment{
         cv.put(TripColumns.Destination, mDestination.getText().toString());
         cv.put(TripColumns.Mileage, Integer.parseInt(mMileage.getText().toString()));
         cv.put(TripColumns.Note, mNote.getText().toString());
-        cv.put(KEY_TRIP_TYPE, isWork ? WORK : PRIVATE);
+        cv.put(TripColumns.TripType, isWork ? WORK : PRIVATE);
+
+        // The first trip registered will not have a previous trip
+        if(mPreviousTrip != null)
+            cv.put(TripColumns.PreviousTripId, mPreviousTrip.getLastPathSegment());
 
         //todo: async?
         Uri uri = getActivity().getContentResolver().insert(TripProvider.Trips.CONTENT_URI, cv);
@@ -152,9 +156,8 @@ public class RegisterFragment extends Fragment{
     private void showPreviousTripCard(Uri previousTrip) {
 
         // Is the card added to the view?
-        if(mPreviousTripContainer.getChildCount() < 1) {
+        if(mPreviousTripContainer.getChildCount() < 1)
             mPreviousTripContainer.addView(mTripCard);
-        }
 
         //todo: async?
         Cursor cursor = getActivity().getContentResolver().query(previousTrip, null, null, null, null);
@@ -166,7 +169,7 @@ public class RegisterFragment extends Fragment{
             mTripCardMileage.setText(CursorHelper.getString(cursor, TripColumns.Mileage));
 
             boolean isWork = CursorHelper.getInt(cursor, TripColumns.TripType) == WORK ? true : false;
-            mTripCardIcon.setImageResource( isWork ? R.mipmap.ic_work_black_48dp : R.mipmap.ic_account_circle_black_48dp);
+            mTripCardIcon.setImageResource(Utility.getResourceForTripIcon(isWork));
         }
 
         //todo: calculate km with the trip before this one. show dash (-) if no previous trip
