@@ -96,7 +96,7 @@ public class LogFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     private void updateEmptyView() {
         if (mTripAdapter.getItemCount() == 0) {
-            TextView textView = (TextView) getView().findViewById(R.id.trip_list);
+            TextView textView = (TextView) getView().findViewById(R.id.empty_trip_list);
 
             if (textView != null)
                 textView.setText(R.string.empty_log_list);
