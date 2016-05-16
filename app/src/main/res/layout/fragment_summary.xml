@@ -8,18 +8,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/card_edge_margin"
-            android:layout_marginLeft="@dimen/card_edge_margin"
-            android:layout_marginRight="@dimen/card_edge_margin"
-            android:layout_marginStart="@dimen/card_edge_margin"
-            android:layout_marginEnd="@dimen/card_edge_margin"
-            android:layout_marginBottom="@dimen/card_edge_margin"
+            android:layout_marginBottom="8dp"
             card_view:cardCornerRadius="2dp">
 
             <LinearLayout
@@ -27,89 +23,93 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp">
-
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp">
 
                 <lecho.lib.hellocharts.view.PieChartView
-                    android:id="@+id/summary_chart"
-                    android:layout_width="324dp"
-                    android:layout_height="324dp" />
+                    android:id="@+id/chart"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
 
-
-                    <TextView
-                        android:id="@+id/summary_total_private_km"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="56sp"
-                        android:text="820"
-                        tools:text="820" />
+                        android:layout_weight="1">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <ImageView
+                            android:id="@+id/icon_private"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_account_circle_black_48dp"
+                            android:alpha="@dimen/icon_active_opacity" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_toRightOf="@id/icon_private"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp">
+
+                            <TextView
+                                android:id="@+id/total_private_mileage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="16sp"
+                                android:text="820" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:text="@string/kilometer" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/summary_total_private_km"
-                        android:layout_alignBottom="@id/summary_total_private_km"
-                        android:paddingBottom="8dp"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="16sp"
-                        android:text="km"
-                        tools:text="km" />
+                        android:layout_weight="1">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-8dp"
-                        android:layout_below="@id/summary_total_private_km"
-                        android:textColor="@color/abc_secondary_text_material_light"
-                        android:textSize="16sp"
-                        android:text="Private"
-                        tools:text="Private" />
+                        <ImageView
+                            android:id="@+id/icon_work"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_account_circle_black_48dp"
+                            android:alpha="@dimen/icon_active_opacity"
+                            android:layout_marginLeft="8dp"/>
 
-                    <TextView
-                        android:id="@+id/summary_total_work_km_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignBottom="@id/summary_total_private_km"
-                        android:paddingBottom="8dp"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="16sp"
-                        android:text="km"
-                        tools:text="km" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_toRightOf="@id/icon_work"
+                            android:layout_centerVertical="true">
 
-                    <TextView
-                        android:id="@+id/summary_total_work_km"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/summary_total_work_km_label"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="56sp"
-                        android:text="265"
-                        tools:text="265" />
+                            <TextView
+                                android:id="@+id/total_work_mileage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="16sp"
+                                android:text="265" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-8dp"
-                        android:layout_below="@id/summary_total_work_km"
-                        android:layout_alignLeft="@+id/summary_total_work_km"
-                        android:textColor="@color/abc_secondary_text_material_light"
-                        android:textSize="16sp"
-                        android:text="Work"
-                        tools:text="Work" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:text="@string/kilometer" />
+                        </LinearLayout>
+                    </RelativeLayout>
 
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -118,11 +118,6 @@
             android:id="@+id/summary_card_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_edge_margin"
-            android:layout_marginRight="@dimen/card_edge_margin"
-            android:layout_marginStart="@dimen/card_edge_margin"
-            android:layout_marginEnd="@dimen/card_edge_margin"
-            android:layout_marginBottom="@dimen/card_edge_margin"
             card_view:cardCornerRadius="2dp">
 
             <LinearLayout

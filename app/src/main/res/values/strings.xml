@@ -23,6 +23,7 @@
     <string name="title_previous_trip">Previous trip</string>
 
     <!-- Summary view -->
+    <string name="kilometer">Km</string>
     <string name="period">Period</string>
     <string name="inbound">Inbound km</string>
     <string name="outbound">Outbound</string>

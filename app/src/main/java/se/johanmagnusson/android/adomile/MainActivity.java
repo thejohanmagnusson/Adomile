@@ -18,7 +18,10 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, LogFragment.OnTripSelectedListener{
+public class MainActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener,
+                   LogFragment.OnTripSelectedListener,
+                   RegisterFragment.OnRegisterTripListener {
 
     public static final String TAG = MainActivity.class.getName();
 
@@ -91,6 +94,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             calendar.set(year, monthOfYear, dayOfMonth);
             fragment.setDate(calendar);
         }
+    }
+
+    // RegisterFragment.OnRegisterTripListener
+    @Override
+    public void onTripRegistered() {
+        // Set flag so other fragments can update if needed
     }
 
     // LogFragment.OnTripSelectedListener

@@ -56,6 +56,11 @@ public class RegisterFragment extends Fragment{
 
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd MMM, yyyy");
 
+    // Register trip callback
+    public interface OnRegisterTripListener {
+        void onTripRegistered();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -152,6 +157,9 @@ public class RegisterFragment extends Fragment{
             mPreviousTripUri = uri;
             showPreviousTripCard(mPreviousTripUri);
         }
+
+        // Callback to activity
+        ((OnRegisterTripListener) getActivity()).onTripRegistered();
     }
 
     //todo: can cause crash on rotation whn parsing id
