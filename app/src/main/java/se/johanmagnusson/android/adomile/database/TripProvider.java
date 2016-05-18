@@ -34,12 +34,14 @@ public final class TripProvider {
 
     @TableEndpoint(table = TripDatabase.TRIPS) public static class Trips {
 
+        // Get all trips
         @ContentUri(
                 path = Path.TRIPS,
                 type = Type.TRIP,
                 defaultSort = TripColumns.Mileage + " DESC")
         public static final Uri CONTENT_URI = buildUri(Path.TRIPS);
 
+        // Get trip by it´s id
         @InexactContentUri(
                 name = "TRIP_ID",
                 path = Path.TRIPS + "/#",
@@ -49,7 +51,6 @@ public final class TripProvider {
         public static Uri withId(long id) {
             return buildUri(Path.TRIPS, String.valueOf(id));
         }
-
     }
 }
 

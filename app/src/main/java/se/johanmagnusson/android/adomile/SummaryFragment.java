@@ -1,9 +1,11 @@
 package se.johanmagnusson.android.adomile;
 
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,12 @@ import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.PieChartView;
+import se.johanmagnusson.android.adomile.database.TripColumns;
+import se.johanmagnusson.android.adomile.database.TripProvider;
 
 public class SummaryFragment extends Fragment{
+
+    public static final String TAG = SummaryFragment.class.getName();
 
     private PieChartView mChart;
     private PieChartData mChartData;
@@ -42,6 +48,24 @@ public class SummaryFragment extends Fragment{
 
         mChart.setChartRotationEnabled(false);
         mChart.setClickable(false);
+
+        /* Schematic TripProvider can´t handle this kind of selection.
+           It always appends =? to the whereColumn making it impossible to use i.e. >= instead.
+           Using the default content URI and adding the selection here instead.
+         */
+        Cursor cursor = getActivity().getContentResolver().query(
+                TripProvider.Trips.CONTENT_URI,
+                null,
+                TripColumns.Date + " >= ? AND " + TripColumns.Date + " <= ?",
+                new String [] {"2016 05 14", "2016 05 19"},
+                TripColumns.Mileage + " DESC");
+
+        if(cursor != null) {
+            Log.d(TAG, "-------- Cursor ok");
+            Log.d(TAG, "-------- Cursor count: " + cursor.getCount());
+        }
+        else
+            Log.d(TAG, "-------- Cursor NULL");
 
         updateChart();
 
