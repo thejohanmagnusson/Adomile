@@ -97,12 +97,13 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         holder.mileage.setText(Integer.toString(mileage));
 
         // Get start destination for the trip to calculate distance traveled. First trip has no previous destination.
-        if(mCursor.moveToPrevious()) {
+        if(mCursor.moveToNext()) {
             int startMileage = mCursor.getInt(mCursor.getColumnIndex(TripColumns.Mileage));
-            holder.km.setText(Integer.toString(mileage - startMileage));
+
+            holder.km.setText(String.format(mContext.getResources().getString(R.string.trip_km), mileage - startMileage));
         }
         else
-            holder.km.setText("--");
+            holder.km.setText(String.format(mContext.getResources().getString(R.string.trip_km), 0));
     }
 
     @Override

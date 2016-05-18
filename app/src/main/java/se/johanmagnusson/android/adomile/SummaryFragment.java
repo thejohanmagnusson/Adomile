@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,12 +59,12 @@ public class SummaryFragment extends Fragment{
                 new String [] {"2016 05 14", "2016 05 19"},
                 TripColumns.Mileage + " DESC");
 
-        if(cursor != null) {
-            Log.d(TAG, "-------- Cursor ok");
-            Log.d(TAG, "-------- Cursor count: " + cursor.getCount());
-        }
-        else
-            Log.d(TAG, "-------- Cursor NULL");
+//        if(cursor != null) {
+//            Log.d(TAG, "-------- Cursor ok");
+//            Log.d(TAG, "-------- Cursor count: " + cursor.getCount());
+//        }
+//        else
+//            Log.d(TAG, "-------- Cursor NULL");
 
         updateChart();
 

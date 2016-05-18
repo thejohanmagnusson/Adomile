@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -25,7 +27,7 @@ import se.johanmagnusson.android.adomile.database.CursorHelper;
 import se.johanmagnusson.android.adomile.database.TripColumns;
 import se.johanmagnusson.android.adomile.database.TripProvider.Trips;
 
-public class RegisterFragment extends Fragment{
+public class RegisterFragment extends Fragment {
 
     public static final String TAG = RegisterFragment.class.getName();
 
@@ -100,7 +102,7 @@ public class RegisterFragment extends Fragment{
 
         mPreviousTripContainer = (ViewGroup) root.findViewById(R.id.previous_trip_container);
         mTripCard = inflater.inflate(R.layout.previous_trip_card, null);
-        mTripCardIcon  = (ImageView) mTripCard.findViewById(R.id.icon);
+        mTripCardIcon = (ImageView) mTripCard.findViewById(R.id.icon);
         mTripCardDestination = (TextView) mTripCard.findViewById(R.id.trip_destination);
         mTripCardDate = (TextView) mTripCard.findViewById(R.id.trip_date);
         mTripCardKm = (TextView) mTripCard.findViewById(R.id.trip_km);
@@ -109,31 +111,30 @@ public class RegisterFragment extends Fragment{
         // Restore saved data
         if (savedInstanceState != null) {
             // Date
-            if(savedInstanceState.containsKey(KEY_DATE))
+            if (savedInstanceState.containsKey(KEY_DATE))
                 mDate.setText(savedInstanceState.getString(KEY_DATE));
             else
                 setDate(Calendar.getInstance());
 
             // Destination
-            if(savedInstanceState.containsKey(KEY_DESTINATION))
+            if (savedInstanceState.containsKey(KEY_DESTINATION))
                 mDestination.setText(savedInstanceState.getString(KEY_DESTINATION));
 
             // Mileage
-            if(savedInstanceState.containsKey(KEY_MILEAGE))
+            if (savedInstanceState.containsKey(KEY_MILEAGE))
                 mMileage.setText(savedInstanceState.getString(KEY_MILEAGE));
 
             // Note
-            if(savedInstanceState.containsKey(KEY_NOTE))
+            if (savedInstanceState.containsKey(KEY_NOTE))
                 mNote.setText(savedInstanceState.getString(KEY_NOTE));
 
             // Previous trip
-            if(savedInstanceState.containsKey(KEY_PREVIOUS_TRIP)) {
+            if (savedInstanceState.containsKey(KEY_PREVIOUS_TRIP)) {
                 mPreviousTripUri.parse(savedInstanceState.getString(KEY_PREVIOUS_TRIP));
                 showPreviousTripCard(mPreviousTripUri);
             }
-        }
-        else {
-            mDate.setText(mDateFormat.format(Calendar.getInstance().getTime()));
+        } else {
+            setDate(Calendar.getInstance());
         }
 
         return root;
@@ -148,31 +149,32 @@ public class RegisterFragment extends Fragment{
         cv.put(TripColumns.TripType, isWork ? WORK : PRIVATE);
 
         // The first trip registered will not have a previous trip
-        if(mPreviousTripUri != null)
+        if (mPreviousTripUri != null)
             cv.put(TripColumns.PreviousTripId, ContentUris.parseId(mPreviousTripUri));
 
         //todo: async?
         Uri uri = getActivity().getContentResolver().insert(Trips.CONTENT_URI, cv);
 
-        if(uri != null) {
+        if (uri != null) {
             mPreviousTripUri = uri;
             showPreviousTripCard(mPreviousTripUri);
         }
 
         // Callback to activity
+        //todo: probably removing this callback
         ((OnRegisterTripListener) getActivity()).onTripRegistered();
     }
 
-    //todo: can cause crash on rotation whn parsing id
+    //todo: can cause crash on rotation when parsing id
     private void showPreviousTripCard(Uri previousTrip) {
 
         // Is the card added to the view?
-        if(mPreviousTripContainer.getChildCount() < 1)
+        if (mPreviousTripContainer.getChildCount() < 1)
             mPreviousTripContainer.addView(mTripCard);
 
         Cursor previousTripCursor = getActivity().getContentResolver().query(previousTrip, null, null, null, null);
 
-        if(previousTripCursor.moveToFirst()) {
+        if (previousTripCursor.moveToFirst()) {
             boolean isWork = CursorHelper.getInt(previousTripCursor, TripColumns.TripType) == WORK ? true : false;
             mTripCardIcon.setImageResource(Utility.getResourceForTripIcon(isWork));
 
@@ -187,10 +189,10 @@ public class RegisterFragment extends Fragment{
             long startDestinationId = CursorHelper.getLong(previousTripCursor, TripColumns.PreviousTripId);
 
             //todo: FIX - helper returns 0 on null cursor, results in wrong previous trip if this happens.
-            if(startDestinationId > 0) {
+            if (startDestinationId > 0) {
                 Cursor startDestinationCursor = getActivity().getContentResolver().query(Trips.withId(startDestinationId), null, null, null, null);
 
-                if(startDestinationCursor.moveToFirst()) {
+                if (startDestinationCursor.moveToFirst()) {
                     int startMileage = CursorHelper.getInt(startDestinationCursor, TripColumns.Mileage);
 
                     mTripCardKm.setText(Integer.toString(mileage - startMileage));
@@ -202,27 +204,57 @@ public class RegisterFragment extends Fragment{
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-        if(mDate != null)
+        if (mDate != null)
             outState.putString(KEY_DATE, mDate.getText().toString());
 
-        if(mDestination != null)
+        if (mDestination != null)
             outState.putString(KEY_DESTINATION, mDestination.getText().toString());
 
-        if(mMileage != null)
+        if (mMileage != null)
             outState.putString(KEY_MILEAGE, mMileage.getText().toString());
 
-        if(mNote != null)
+        if (mNote != null)
             outState.putString(KEY_NOTE, mNote.getText().toString());
 
-        if(mPreviousTripUri != null)
+        if (mPreviousTripUri != null)
             outState.putString(KEY_PREVIOUS_TRIP, mPreviousTripUri.toString());
 
         super.onSaveInstanceState(outState);
     }
 
     public void setDate(@NonNull Calendar calendar) {
-        mDate.setText(mDateFormat.format(calendar.getTime()));
+        // Get previous trip date to compare with
+        if (mPreviousTripUri != null) {
+            Cursor previousTripCursor = getActivity().getContentResolver().query(mPreviousTripUri, null, null, null, null);
+
+            if (previousTripCursor.moveToFirst()) {
+                String date = CursorHelper.getString(previousTripCursor, TripColumns.Date);
+
+                if (date != null) {
+                    Calendar previousCalendar = Calendar.getInstance();
+
+                    try {
+                        previousCalendar.setTime(mDateFormat.parse(date));
+
+                        // Check if data is before the previous date
+                        if (previousCalendar.compareTo(calendar) == 1) {
+                            mDate.setText(mDateFormat.format(Calendar.getInstance().getTime()));
+                            Toast.makeText(getContext(), "Date can´t be earlier than last trip", Toast.LENGTH_LONG).show();
+                        } else
+                            mDate.setText(mDateFormat.format(calendar.getTime()));
+
+                    } catch (ParseException e) {
+                        Log.d(TAG, "setDate error: Parse date failed.");
+                    }
+                }
+                Log.d(TAG, "setDate error: Cursor was NULL.");
+            } else
+                Log.d(TAG, "setDate error: moveToFirst was false.");
+        } else
+            mDate.setText(mDateFormat.format(calendar.getTime()));
     }
+
+
 }
 
 
