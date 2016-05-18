@@ -1,5 +1,7 @@
 package se.johanmagnusson.android.adomile.database;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 
 import net.simonvt.schematic.annotation.ContentProvider;
@@ -22,6 +24,11 @@ public final class TripProvider {
         String TRIP = "vnd.android.cursor.dir/trip";
     }
 
+    interface Sort {
+        String DESC = " DESC ";
+        String ASC = " ASC ";
+    }
+
     private static Uri buildUri(String... paths) {
         Uri.Builder builder = BASE_CONTENT_URI.buildUpon();
 
@@ -38,7 +45,7 @@ public final class TripProvider {
         @ContentUri(
                 path = Path.TRIPS,
                 type = Type.TRIP,
-                defaultSort = TripColumns.Mileage + " DESC")
+                defaultSort = TripColumns.Mileage + Sort.DESC)
         public static final Uri CONTENT_URI = buildUri(Path.TRIPS);
 
         // Get trip by it´s id
@@ -51,6 +58,17 @@ public final class TripProvider {
         public static Uri withId(long id) {
             return buildUri(Path.TRIPS, String.valueOf(id));
         }
+    }
+
+    public static Cursor getLastTrip(Context context) {
+        Cursor cursor = context.getContentResolver().query(
+                Trips.CONTENT_URI,
+                null,
+                null,
+                null,
+                TripColumns.Mileage + Sort.DESC + "LIMIT 1");
+
+        return cursor;
     }
 }
 

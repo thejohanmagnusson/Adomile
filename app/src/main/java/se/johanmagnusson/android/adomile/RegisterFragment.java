@@ -25,6 +25,7 @@ import java.util.Calendar;
 
 import se.johanmagnusson.android.adomile.database.CursorHelper;
 import se.johanmagnusson.android.adomile.database.TripColumns;
+import se.johanmagnusson.android.adomile.database.TripProvider;
 import se.johanmagnusson.android.adomile.database.TripProvider.Trips;
 
 public class RegisterFragment extends Fragment {
@@ -35,8 +36,7 @@ public class RegisterFragment extends Fragment {
     private final String KEY_DESTINATION = "destination";
     private final String KEY_MILEAGE = "mileage";
     private final String KEY_NOTE = "note";
-    private final String KEY_TRIP_TYPE = "trip_type";
-    private final String KEY_PREVIOUS_TRIP = "previous_trip";
+    private final String KEY_LAST_TRIP = "last_trip";
 
     private final Integer PRIVATE = 0;
     private final Integer WORK = 1;
@@ -55,7 +55,7 @@ public class RegisterFragment extends Fragment {
     private TextView mTripCardKm;
     private TextView mTripCardMileage;
 
-    private Uri mPreviousTripUri;
+    private long mLastTripId;
 
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd MMM, yyyy");
 
@@ -129,15 +129,112 @@ public class RegisterFragment extends Fragment {
                 mNote.setText(savedInstanceState.getString(KEY_NOTE));
 
             // Previous trip
-            if (savedInstanceState.containsKey(KEY_PREVIOUS_TRIP)) {
-                mPreviousTripUri.parse(savedInstanceState.getString(KEY_PREVIOUS_TRIP));
-                showPreviousTripCard(mPreviousTripUri);
+            if (savedInstanceState.containsKey(KEY_LAST_TRIP)) {
+                mLastTripId = savedInstanceState.getLong(KEY_LAST_TRIP);
+                showTripCard(mLastTripId);
             }
-        } else {
+        }
+        else {
+            mLastTripId = CursorHelper.INVALID_ID;
             setDate(Calendar.getInstance());
         }
 
         return root;
+    }
+
+    public void setDate(@NonNull Calendar calendar) {
+        // Check if a previous trip is available, date need to be same or later
+        if (mLastTripId == CursorHelper.INVALID_ID) {
+            mDate.setText(mDateFormat.format(calendar.getTime()));
+        }
+        else {
+            Cursor lastTripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(mLastTripId), null, null, null, null);
+
+            Log.d(TAG, "------ Last trip id: " + mLastTripId);
+            Log.d(TAG, "------ Cursor count: " + lastTripCursor.getCount());
+
+            if(lastTripCursor != null){
+                if (lastTripCursor.moveToFirst()) {
+                    String date = CursorHelper.getString(lastTripCursor, TripColumns.Date);
+
+                    if (date != null) {
+                        Calendar previousCalendar = Calendar.getInstance();
+
+                        try {
+                            previousCalendar.setTime(mDateFormat.parse(date));
+
+                            // Check if data is before the previous date
+                            if (previousCalendar.compareTo(calendar) == 1) {
+                                mDate.setText(mDateFormat.format(Calendar.getInstance().getTime()));
+                                Toast.makeText(getContext(), "Date can´t be earlier than last trip", Toast.LENGTH_LONG).show();
+                            } else
+                                mDate.setText(mDateFormat.format(calendar.getTime()));
+
+                        } catch (ParseException e) {
+                            Log.d(TAG, "setDate error: Parse date failed.");
+                        }
+                    }
+                    Log.d(TAG, "setDate error: Cursor was NULL.");
+                } else
+                    Log.d(TAG, "setDate error: moveToFirst was false.");
+            } else
+                Log.d(TAG, "setDate error: Cursor was NULL.");
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(mLastTripId == CursorHelper.INVALID_ID)
+            getLastTrip();
+    }
+
+    public void getLastTrip() {
+        // Get last trip (if any)
+        Cursor cursor = TripProvider.getLastTrip(getContext());
+        cursor.moveToFirst();
+
+        if (cursor != null){
+            mLastTripId = CursorHelper.getTripId(cursor);
+        }
+    }
+
+    private void showTripCard(long tripId) {
+
+        // Is the card added to the view?
+        if (mPreviousTripContainer.getChildCount() < 1)
+            mPreviousTripContainer.addView(mTripCard);
+
+        Cursor tripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(tripId), null, null, null, null);
+
+        if(tripCursor != null){
+            if (tripCursor.moveToFirst()) {
+                boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == WORK ? true : false;
+                mTripCardIcon.setImageResource(Utility.getResourceForTripIcon(isWork));
+
+                mTripCardDate.setText(CursorHelper.getString(tripCursor, TripColumns.Date));
+                mTripCardDestination.setText(CursorHelper.getString(tripCursor, TripColumns.Destination));
+
+                int mileage = CursorHelper.getInt(tripCursor, TripColumns.Mileage);
+                mTripCardMileage.setText(String.format(this.getResources().getString(R.string.trip_mileage), mileage));
+
+                // Get start destination for the trip to calculate distance traveled (the trip before this one)
+                long previousTripId = CursorHelper.getTripId(tripCursor);
+
+                if (previousTripId != CursorHelper.INVALID_ID) {
+                    Cursor previousTripCursor = getActivity().getContentResolver().query(Trips.withId(previousTripId), null, null, null, null);
+
+                    if(previousTripCursor != null) {
+                        if (previousTripCursor.moveToFirst()) {
+                            int startMileage = CursorHelper.getInt(previousTripCursor, TripColumns.Mileage);
+
+                            mTripCardKm.setText(String.format(this.getResources().getString(R.string.trip_km), mileage - startMileage));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void registerTrip(boolean isWork) {
@@ -149,56 +246,19 @@ public class RegisterFragment extends Fragment {
         cv.put(TripColumns.TripType, isWork ? WORK : PRIVATE);
 
         // The first trip registered will not have a previous trip
-        if (mPreviousTripUri != null)
-            cv.put(TripColumns.PreviousTripId, ContentUris.parseId(mPreviousTripUri));
+        if(mLastTripId != CursorHelper.INVALID_ID)
+            cv.put(TripColumns.PreviousTripId, mLastTripId);
 
-        //todo: async?
         Uri uri = getActivity().getContentResolver().insert(Trips.CONTENT_URI, cv);
 
         if (uri != null) {
-            mPreviousTripUri = uri;
-            showPreviousTripCard(mPreviousTripUri);
+            mLastTripId = ContentUris.parseId(uri);
+            showTripCard(mLastTripId);
         }
 
         // Callback to activity
         //todo: probably removing this callback
         ((OnRegisterTripListener) getActivity()).onTripRegistered();
-    }
-
-    //todo: can cause crash on rotation when parsing id
-    private void showPreviousTripCard(Uri previousTrip) {
-
-        // Is the card added to the view?
-        if (mPreviousTripContainer.getChildCount() < 1)
-            mPreviousTripContainer.addView(mTripCard);
-
-        Cursor previousTripCursor = getActivity().getContentResolver().query(previousTrip, null, null, null, null);
-
-        if (previousTripCursor.moveToFirst()) {
-            boolean isWork = CursorHelper.getInt(previousTripCursor, TripColumns.TripType) == WORK ? true : false;
-            mTripCardIcon.setImageResource(Utility.getResourceForTripIcon(isWork));
-
-            //todo: format date to "today" if current date
-            mTripCardDate.setText(CursorHelper.getString(previousTripCursor, TripColumns.Date));
-            mTripCardDestination.setText(CursorHelper.getString(previousTripCursor, TripColumns.Destination));
-
-            int mileage = CursorHelper.getInt(previousTripCursor, TripColumns.Mileage);
-            mTripCardMileage.setText(Integer.toString(mileage));
-
-            // Get start destination for the trip to calculate distance traveled (the trip before this one)
-            long startDestinationId = CursorHelper.getLong(previousTripCursor, TripColumns.PreviousTripId);
-
-            //todo: FIX - helper returns 0 on null cursor, results in wrong previous trip if this happens.
-            if (startDestinationId > 0) {
-                Cursor startDestinationCursor = getActivity().getContentResolver().query(Trips.withId(startDestinationId), null, null, null, null);
-
-                if (startDestinationCursor.moveToFirst()) {
-                    int startMileage = CursorHelper.getInt(startDestinationCursor, TripColumns.Mileage);
-
-                    mTripCardKm.setText(Integer.toString(mileage - startMileage));
-                }
-            }
-        }
     }
 
     @Override
@@ -216,45 +276,18 @@ public class RegisterFragment extends Fragment {
         if (mNote != null)
             outState.putString(KEY_NOTE, mNote.getText().toString());
 
-        if (mPreviousTripUri != null)
-            outState.putString(KEY_PREVIOUS_TRIP, mPreviousTripUri.toString());
+        if (mLastTripId != CursorHelper.INVALID_ID)
+            outState.putLong(KEY_LAST_TRIP, mLastTripId);
 
         super.onSaveInstanceState(outState);
     }
 
-    public void setDate(@NonNull Calendar calendar) {
-        // Get previous trip date to compare with
-        if (mPreviousTripUri != null) {
-            Cursor previousTripCursor = getActivity().getContentResolver().query(mPreviousTripUri, null, null, null, null);
+    @Override
+    public void onResume() {
+        super.onResume();
 
-            if (previousTripCursor.moveToFirst()) {
-                String date = CursorHelper.getString(previousTripCursor, TripColumns.Date);
 
-                if (date != null) {
-                    Calendar previousCalendar = Calendar.getInstance();
-
-                    try {
-                        previousCalendar.setTime(mDateFormat.parse(date));
-
-                        // Check if data is before the previous date
-                        if (previousCalendar.compareTo(calendar) == 1) {
-                            mDate.setText(mDateFormat.format(Calendar.getInstance().getTime()));
-                            Toast.makeText(getContext(), "Date can´t be earlier than last trip", Toast.LENGTH_LONG).show();
-                        } else
-                            mDate.setText(mDateFormat.format(calendar.getTime()));
-
-                    } catch (ParseException e) {
-                        Log.d(TAG, "setDate error: Parse date failed.");
-                    }
-                }
-                Log.d(TAG, "setDate error: Cursor was NULL.");
-            } else
-                Log.d(TAG, "setDate error: moveToFirst was false.");
-        } else
-            mDate.setText(mDateFormat.format(calendar.getTime()));
     }
-
-
 }
 
 

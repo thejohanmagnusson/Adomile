@@ -5,9 +5,21 @@ import android.support.annotation.Nullable;
 
 import java.util.Date;
 
-// https://github.com/SimonVT/schematic/issues/43
 public abstract class CursorHelper {
 
+    public static final long INVALID_ID = -1;
+
+    public static long getTripId(Cursor cursor) {
+        int columnIndex = cursor.getColumnIndex(TripColumns.ID);
+
+        if (columnIndex >= 0 && !cursor.isNull(columnIndex)) {
+            return cursor.getLong(columnIndex);
+        }
+
+        return INVALID_ID;
+    }
+
+    // https://github.com/SimonVT/schematic/issues/43
     public static long getLong(Cursor cursor, String columnName) {
         int columnIndex = cursor.getColumnIndex(columnName);
 

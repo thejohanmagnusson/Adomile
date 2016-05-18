@@ -15,6 +15,7 @@
     <string name="trip_type_private">Private</string>
     <string name="trip_type_work">Work</string>
     <string name="trip_km">%d km</string>
+    <string name="trip_mileage">%d</string>
 
     <!-- Register view -->
     <string name="title_registration">Register trip</string>
