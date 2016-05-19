@@ -19,6 +19,16 @@ public abstract class CursorHelper {
         return INVALID_ID;
     }
 
+    public static String getLastTripDate(Cursor cursor) {
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(TripColumns.Date);
+
+        if (columnIndex >= 0 && !cursor.isNull(columnIndex)) {
+            return cursor.getString(columnIndex);
+        }
+        return null;
+    }
+
     // https://github.com/SimonVT/schematic/issues/43
     public static long getLong(Cursor cursor, String columnName) {
         int columnIndex = cursor.getColumnIndex(columnName);

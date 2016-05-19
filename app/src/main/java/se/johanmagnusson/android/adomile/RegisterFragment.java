@@ -17,11 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import se.johanmagnusson.android.adomile.database.CursorHelper;
 import se.johanmagnusson.android.adomile.database.TripColumns;
@@ -73,9 +73,7 @@ public class RegisterFragment extends Fragment {
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Show a date picker
-                DatePickerFragment datePickerFragment = new DatePickerFragment();
-                datePickerFragment.show(getActivity().getSupportFragmentManager(), DatePickerFragment.TAG);
+                showDatePicker();
             }
         });
 
@@ -128,76 +126,58 @@ public class RegisterFragment extends Fragment {
             if (savedInstanceState.containsKey(KEY_NOTE))
                 mNote.setText(savedInstanceState.getString(KEY_NOTE));
 
-            // Previous trip
-            if (savedInstanceState.containsKey(KEY_LAST_TRIP)) {
+            // Last trip
+            if (savedInstanceState.containsKey(KEY_LAST_TRIP))
                 mLastTripId = savedInstanceState.getLong(KEY_LAST_TRIP);
-                showTripCard(mLastTripId);
-            }
         }
-        else {
-            mLastTripId = CursorHelper.INVALID_ID;
+        else
             setDate(Calendar.getInstance());
-        }
 
         return root;
     }
 
-    public void setDate(@NonNull Calendar calendar) {
-        // Check if a previous trip is available, date need to be same or later
-        if (mLastTripId == CursorHelper.INVALID_ID) {
-            mDate.setText(mDateFormat.format(calendar.getTime()));
+    private void showDatePicker() {
+        String lastTripDate = CursorHelper.getLastTripDate(TripProvider.getLastTripDate(getContext()));
+        Date date = null;
+
+        try {
+            date = mDateFormat.parse(lastTripDate);
+        } catch (ParseException e) {
+            Log.d(TAG, "showDatePicker, parse error: " + e.getMessage());
         }
-        else {
-            Cursor lastTripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(mLastTripId), null, null, null, null);
 
-            Log.d(TAG, "------ Last trip id: " + mLastTripId);
-            Log.d(TAG, "------ Cursor count: " + lastTripCursor.getCount());
+        Bundle args = new Bundle();
 
-            if(lastTripCursor != null){
-                if (lastTripCursor.moveToFirst()) {
-                    String date = CursorHelper.getString(lastTripCursor, TripColumns.Date);
+        if(date != null)
+            args.putLong(DatePickerFragment.KEY_MIN_DATE, date.getTime());
+        else
+            args.putLong(DatePickerFragment.KEY_MIN_DATE, 0L);
 
-                    if (date != null) {
-                        Calendar previousCalendar = Calendar.getInstance();
-
-                        try {
-                            previousCalendar.setTime(mDateFormat.parse(date));
-
-                            // Check if data is before the previous date
-                            if (previousCalendar.compareTo(calendar) == 1) {
-                                mDate.setText(mDateFormat.format(Calendar.getInstance().getTime()));
-                                Toast.makeText(getContext(), "Date can´t be earlier than last trip", Toast.LENGTH_LONG).show();
-                            } else
-                                mDate.setText(mDateFormat.format(calendar.getTime()));
-
-                        } catch (ParseException e) {
-                            Log.d(TAG, "setDate error: Parse date failed.");
-                        }
-                    }
-                    Log.d(TAG, "setDate error: Cursor was NULL.");
-                } else
-                    Log.d(TAG, "setDate error: moveToFirst was false.");
-            } else
-                Log.d(TAG, "setDate error: Cursor was NULL.");
-        }
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setArguments(args);
+        datePickerFragment.show(getActivity().getSupportFragmentManager(), DatePickerFragment.TAG);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        if(mLastTripId == CursorHelper.INVALID_ID)
-            getLastTrip();
+        mLastTripId = getLastTrip();
     }
 
-    public void getLastTrip() {
+    private long getLastTrip() {
         // Get last trip (if any)
         Cursor cursor = TripProvider.getLastTrip(getContext());
         cursor.moveToFirst();
 
-        if (cursor != null){
-            mLastTripId = CursorHelper.getTripId(cursor);
-        }
+        if (cursor != null)
+            return CursorHelper.getTripId(cursor);
+
+        return CursorHelper.INVALID_ID;
+    }
+
+    public void setDate(@NonNull Calendar calendar) {
+        mDate.setText(mDateFormat.format(calendar.getTime()));
     }
 
     private void showTripCard(long tripId) {
@@ -281,15 +261,7 @@ public class RegisterFragment extends Fragment {
 
         super.onSaveInstanceState(outState);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-    }
 }
-
 
 
 

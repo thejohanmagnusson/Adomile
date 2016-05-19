@@ -70,6 +70,17 @@ public final class TripProvider {
 
         return cursor;
     }
+
+    public static Cursor getLastTripDate(Context context) {
+        Cursor cursor = context.getContentResolver().query(
+                Trips.CONTENT_URI,
+                new String[] {TripColumns.Date},
+                null,
+                null,
+                TripColumns.Mileage + Sort.DESC + "LIMIT 1");
+
+        return cursor;
+    }
 }
 
 
