@@ -19,7 +19,7 @@ public abstract class CursorHelper {
         return INVALID_ID;
     }
 
-    public static String getLastTripDate(Cursor cursor) {
+    public static String getTripDate(Cursor cursor) {
         cursor.moveToFirst();
         int columnIndex = cursor.getColumnIndex(TripColumns.Date);
 

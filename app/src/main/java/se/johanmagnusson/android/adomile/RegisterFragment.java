@@ -57,7 +57,7 @@ public class RegisterFragment extends Fragment {
 
     private long mLastTripId;
 
-    private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd MMM, yyyy");
+    private SimpleDateFormat mDateFormat = Utility.getDateFormat();
 
     // Register trip callback
     public interface OnRegisterTripListener {
@@ -86,7 +86,8 @@ public class RegisterFragment extends Fragment {
         mPrivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerTrip(false);
+                if(validateInput())
+                    registerTrip(false);
             }
         });
 
@@ -94,7 +95,8 @@ public class RegisterFragment extends Fragment {
         mWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerTrip(true);
+                if(validateInput())
+                    registerTrip(true);
             }
         });
 
@@ -137,13 +139,20 @@ public class RegisterFragment extends Fragment {
     }
 
     private void showDatePicker() {
-        String lastTripDate = CursorHelper.getLastTripDate(TripProvider.getLastTripDate(getContext()));
+        Cursor cursor = TripProvider.getLastTrip(getContext());
         Date date = null;
 
-        try {
-            date = mDateFormat.parse(lastTripDate);
-        } catch (ParseException e) {
-            Log.d(TAG, "showDatePicker, parse error: " + e.getMessage());
+        if(cursor.getCount() > 0){
+            String lastTripDate = CursorHelper.getTripDate(cursor);
+
+            try {
+                date = mDateFormat.parse(lastTripDate);
+            } catch (ParseException e) {
+                Log.d(TAG, "showDatePicker, parse error: " + e.getMessage());
+            }
+            finally {
+                cursor.close();
+            }
         }
 
         Bundle args = new Bundle();
@@ -168,16 +177,50 @@ public class RegisterFragment extends Fragment {
     private long getLastTrip() {
         // Get last trip (if any)
         Cursor cursor = TripProvider.getLastTrip(getContext());
-        cursor.moveToFirst();
 
-        if (cursor != null)
-            return CursorHelper.getTripId(cursor);
+        if(cursor.getCount() > 0) {
+            cursor.moveToFirst();
 
+            if (cursor != null) {
+                long id = CursorHelper.getTripId(cursor);
+                cursor.close();
+                return id;
+            }
+        }
         return CursorHelper.INVALID_ID;
     }
 
     public void setDate(@NonNull Calendar calendar) {
         mDate.setText(mDateFormat.format(calendar.getTime()));
+    }
+
+    //todo: make method
+    private boolean validateInput() {
+        return true;
+    }
+
+    private void registerTrip(boolean isWork) {
+        ContentValues cv = new ContentValues();
+        cv.put(TripColumns.Date, mDate.getText().toString());
+        cv.put(TripColumns.Destination, mDestination.getText().toString());
+        cv.put(TripColumns.Mileage, Integer.parseInt(mMileage.getText().toString()));
+        cv.put(TripColumns.Note, mNote.getText().toString());
+        cv.put(TripColumns.TripType, isWork ? WORK : PRIVATE);
+
+        // The first trip registered will not have a previous trip
+        if(mLastTripId != CursorHelper.INVALID_ID)
+            cv.put(TripColumns.PreviousTripId, mLastTripId);
+
+        Uri uri = getActivity().getContentResolver().insert(Trips.CONTENT_URI, cv);
+
+        if (uri != null) {
+            mLastTripId = ContentUris.parseId(uri);
+            showTripCard(mLastTripId);
+        }
+
+        // Callback to activity
+        //todo: probably removing this callback
+        ((OnRegisterTripListener) getActivity()).onTripRegistered();
     }
 
     private void showTripCard(long tripId) {
@@ -214,31 +257,8 @@ public class RegisterFragment extends Fragment {
                     }
                 }
             }
+            tripCursor.close();
         }
-    }
-
-    private void registerTrip(boolean isWork) {
-        ContentValues cv = new ContentValues();
-        cv.put(TripColumns.Date, mDate.getText().toString());
-        cv.put(TripColumns.Destination, mDestination.getText().toString());
-        cv.put(TripColumns.Mileage, Integer.parseInt(mMileage.getText().toString()));
-        cv.put(TripColumns.Note, mNote.getText().toString());
-        cv.put(TripColumns.TripType, isWork ? WORK : PRIVATE);
-
-        // The first trip registered will not have a previous trip
-        if(mLastTripId != CursorHelper.INVALID_ID)
-            cv.put(TripColumns.PreviousTripId, mLastTripId);
-
-        Uri uri = getActivity().getContentResolver().insert(Trips.CONTENT_URI, cv);
-
-        if (uri != null) {
-            mLastTripId = ContentUris.parseId(uri);
-            showTripCard(mLastTripId);
-        }
-
-        // Callback to activity
-        //todo: probably removing this callback
-        ((OnRegisterTripListener) getActivity()).onTripRegistered();
     }
 
     @Override

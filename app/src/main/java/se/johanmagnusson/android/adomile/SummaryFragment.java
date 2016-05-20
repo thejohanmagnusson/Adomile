@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import lecho.lib.hellocharts.model.PieChartData;
@@ -48,6 +49,22 @@ public class SummaryFragment extends Fragment{
         mChart.setChartRotationEnabled(false);
         mChart.setClickable(false);
 
+        return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Get first day of the month
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        String fromDate = Utility.getDateFormat().format(calendar.getTime());
+
+        // Get last day of the month
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        String toDate = Utility.getDateFormat().format(calendar.getTime());
+
         /* Schematic TripProvider can´t handle this kind of selection.
            It always appends =? to the whereColumn making it impossible to use i.e. >= instead.
            Using the default content URI and adding the selection here instead.
@@ -56,19 +73,10 @@ public class SummaryFragment extends Fragment{
                 TripProvider.Trips.CONTENT_URI,
                 null,
                 TripColumns.Date + " >= ? AND " + TripColumns.Date + " <= ?",
-                new String [] {"2016 05 14", "2016 05 19"},
+                new String [] {fromDate, toDate},
                 TripColumns.Mileage + " DESC");
 
-//        if(cursor != null) {
-//            Log.d(TAG, "-------- Cursor ok");
-//            Log.d(TAG, "-------- Cursor count: " + cursor.getCount());
-//        }
-//        else
-//            Log.d(TAG, "-------- Cursor NULL");
-
         updateChart();
-
-        return root;
     }
 
     //todo: get data from db, use asyncTask to fetch and calculate
