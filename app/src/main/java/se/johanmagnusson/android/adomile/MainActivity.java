@@ -1,5 +1,6 @@
 package se.johanmagnusson.android.adomile;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
@@ -24,6 +26,11 @@ public class MainActivity extends AppCompatActivity
                    RegisterFragment.OnRegisterTripListener {
 
     public static final String TAG = MainActivity.class.getName();
+
+    public static final int SUMMARY_PAGE = 0;
+    public static final int REGISTER_PAGE = 1;
+    public static final int LOG_PAGE = 2;
+    public static final String KEY_SELECTED_TAB = "selected_tab";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +62,33 @@ public class MainActivity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.getTabAt(1).select();
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position != REGISTER_PAGE){
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        if(savedInstanceState == null)
+            mTabLayout.getTabAt(REGISTER_PAGE).select();
+        else
+            mTabLayout.getTabAt(savedInstanceState.getInt(KEY_SELECTED_TAB)).select();
     }
 
 
@@ -81,6 +112,15 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_SELECTED_TAB, mTabLayout.getSelectedTabPosition());
+
+        Log.d(TAG,"---------Saving tab index");
+
+        super.onSaveInstanceState(outState);
     }
 
     // DatePickerFragment/DatePickerDialog.OnDateSetListener
@@ -139,10 +179,10 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             switch (position) {
-                case 0:
+                case SUMMARY_PAGE:
                     Log.d(TAG, "------------- Get Summary fragment");
                     return new SummaryFragment();
-                case 1:
+                case REGISTER_PAGE:
                     Log.d(TAG, "------------- Get Register fragment");
                     return new RegisterFragment();
                 default:
@@ -160,11 +200,11 @@ public class MainActivity extends AppCompatActivity
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0:
+                case SUMMARY_PAGE:
                     return getString(R.string.tab_summary);
-                case 1:
+                case REGISTER_PAGE:
                     return getString(R.string.tab_register);
-                case 2:
+                case LOG_PAGE:
                     return getString(R.string.tab_log);
             }
             return null;
