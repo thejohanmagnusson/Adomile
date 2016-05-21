@@ -107,7 +107,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -137,25 +137,29 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal">
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/private_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="36dp"
+                    android:minWidth="88dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/trip_type_private"
-                    android:contentDescription="@string/trip_type_private"/>
+                    android:contentDescription="@string/trip_type_private"
+                    android:theme="@style/ButtonTheme"/>
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/work_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="36dp"
+                    android:minWidth="88dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/trip_type_work"
-                    android:contentDescription="@string/trip_type_work"/>
+                    android:contentDescription="@string/trip_type_work"
+                    android:theme="@style/ButtonTheme"/>
             </LinearLayout>
         </LinearLayout>
 
