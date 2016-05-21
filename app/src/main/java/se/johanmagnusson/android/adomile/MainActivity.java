@@ -118,8 +118,6 @@ public class MainActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(KEY_SELECTED_TAB, mTabLayout.getSelectedTabPosition());
 
-        Log.d(TAG,"---------Saving tab index");
-
         super.onSaveInstanceState(outState);
     }
 

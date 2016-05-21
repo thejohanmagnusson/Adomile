@@ -86,24 +86,33 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
 
         boolean isWork = mCursor.getInt(mCursor.getColumnIndex(TripColumns.TripType)) == 1 ? true : false;
         holder.icon.setImageResource(Utility.getResourceForTripIcon(isWork));
-
+        holder.icon.setContentDescription(Utility.getContentDescriptionForTripIcon(mContext, isWork));
+        
         String destination = mCursor.getString(mCursor.getColumnIndex(TripColumns.Destination));
         holder.destination.setText(destination);
+        holder.destination.setContentDescription(destination);
 
         String date = mCursor.getString(mCursor.getColumnIndex(TripColumns.Date));
         holder.date.setText(date);
-
+        holder.date.setContentDescription(date);
+        
         int mileage = mCursor.getInt(mCursor.getColumnIndex(TripColumns.Mileage));
-        holder.mileage.setText(String.format(mContext.getResources().getString(R.string.trip_mileage), mileage));
-
+        String formattedMileage = String.format(mContext.getResources().getString(R.string.trip_mileage), mileage);
+        holder.mileage.setText(formattedMileage);
+        holder.mileage.setContentDescription(formattedMileage);
+        
         // Get start destination for the trip to calculate distance traveled. First trip has no previous destination.
         if(mCursor.moveToNext()) {
             int startMileage = mCursor.getInt(mCursor.getColumnIndex(TripColumns.Mileage));
 
-            holder.km.setText(String.format(mContext.getResources().getString(R.string.trip_km), mileage - startMileage));
+            String formatedStartMileage = String.format(mContext.getResources().getString(R.string.trip_km), mileage - startMileage);
+            holder.km.setText(formatedStartMileage);
         }
-        else
-            holder.km.setText(String.format(mContext.getResources().getString(R.string.trip_km), 0));
+        else {
+            String km = String.format(mContext.getResources().getString(R.string.trip_km), 0);
+            holder.km.setText(km);
+            holder.km.setContentDescription(km);
+        }
     }
 
     @Override

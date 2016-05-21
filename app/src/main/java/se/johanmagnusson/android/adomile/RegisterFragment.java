@@ -186,7 +186,9 @@ public class RegisterFragment extends Fragment {
     }
 
     public void setDate(@NonNull Calendar calendar) {
-        mDate.setText(mDateFormat.format(calendar.getTime()));
+        String date = mDateFormat.format(calendar.getTime());
+        mDate.setText(date);
+        mDate.setContentDescription(date);
     }
 
     //todo: make method

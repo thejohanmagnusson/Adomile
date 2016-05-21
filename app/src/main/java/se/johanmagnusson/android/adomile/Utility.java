@@ -1,5 +1,7 @@
 package se.johanmagnusson.android.adomile;
 
+import android.content.Context;
+
 import java.text.SimpleDateFormat;
 
 public class Utility {
@@ -10,6 +12,10 @@ public class Utility {
 
     public static int getResourceForTripIcon(boolean isWork) {
         return isWork ? R.mipmap.ic_work_black_48dp : R.mipmap.ic_account_circle_black_48dp;
+    }
+
+    public static String getContentDescriptionForTripIcon(Context context, boolean isWork) {
+        return context.getResources().getString(isWork ? R.string.trip_type_work : R.string.trip_type_private);
     }
 
     public static SimpleDateFormat getDateFormat() {

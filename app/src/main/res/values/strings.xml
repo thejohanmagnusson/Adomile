@@ -18,7 +18,8 @@
     <string name="trip_mileage">%d</string>
 
     <!-- Register view -->
-    <string name="title_registration">Register trip</string>
+    <string name="register_trip">Register trip</string>
+    <string name="date">Date</string>
     <string name="destination">Destination</string>
     <string name="mileage">Mileage</string>
     <string name="note">Note</string>

@@ -20,10 +20,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/abc_primary_text_material_light"
                 android:textSize="24sp"
-                android:text="Register trip"/>
+                android:text="@string/register_trip"
+                android:contentDescription="@string/register_trip"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -35,13 +37,15 @@
                     android:layout_marginLeft="16dp"
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/ic_calendar_black_24dp"
-                    android:alpha="@dimen/icon_active_opacity"/>
+                    android:alpha="@dimen/icon_active_opacity"
+                    android:contentDescription="@string/date"/>
 
                 <TextView
                     android:id="@+id/register_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/abc_primary_text_material_light"
                     tools:text="3 May, 2016" />
@@ -55,19 +59,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/ic_map_marker_black_24dp"
-                    android:alpha="@dimen/icon_active_opacity"/>
+                    android:alpha="@dimen/icon_active_opacity"
+                    android:contentDescription="@string/destination"/>
 
                 <EditText
                     android:id="@+id/destination"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:inputType="text"
                     android:imeOptions="actionNext"
-                    android:hint="@string/destination" />
+                    android:hint="@string/destination"
+                    />
             </FrameLayout>
 
             <FrameLayout
@@ -78,15 +86,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/ic_gauge_black_24dp"
-                    android:alpha="@dimen/icon_active_opacity"/>
+                    android:alpha="@dimen/icon_active_opacity"
+                    android:contentDescription="@string/mileage"/>
 
                 <EditText
                     android:id="@+id/mileage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:inputType="number"
                     android:ems="6"
@@ -102,15 +113,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/ic_insert_comment_black_24dp"
-                    android:alpha="@dimen/icon_active_opacity"/>
+                    android:alpha="@dimen/icon_active_opacity"
+                    android:contentDescription="@string/note"/>
 
                 <EditText
                     android:id="@+id/note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:inputType="text"
                     android:hint="@string/note"
@@ -132,14 +146,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/trip_type_private" />
+                    android:text="@string/trip_type_private"
+                    android:contentDescription="@string/trip_type_private"/>
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/work_button"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/trip_type_work" />
+                    android:text="@string/trip_type_work"
+                    android:contentDescription="@string/trip_type_work"/>
             </LinearLayout>
         </LinearLayout>
 
