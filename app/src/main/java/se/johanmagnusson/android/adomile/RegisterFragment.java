@@ -38,9 +38,6 @@ public class RegisterFragment extends Fragment {
     private final String KEY_NOTE = "note";
     private final String KEY_LAST_TRIP = "last_trip";
 
-    private final Integer PRIVATE = 0;
-    private final Integer WORK = 1;
-
     private TextView mDate;
     private EditText mDestination;
     private EditText mMileage;
@@ -178,14 +175,12 @@ public class RegisterFragment extends Fragment {
         // Get last trip (if any)
         Cursor cursor = TripProvider.getLastTrip(getContext());
 
-        if(cursor.getCount() > 0) {
+        if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
 
-            if (cursor != null) {
-                long id = CursorHelper.getTripId(cursor);
-                cursor.close();
-                return id;
-            }
+            long id = CursorHelper.getTripId(cursor);
+            cursor.close();
+            return id;
         }
         return CursorHelper.INVALID_ID;
     }
@@ -205,7 +200,7 @@ public class RegisterFragment extends Fragment {
         cv.put(TripColumns.Destination, mDestination.getText().toString());
         cv.put(TripColumns.Mileage, Integer.parseInt(mMileage.getText().toString()));
         cv.put(TripColumns.Note, mNote.getText().toString());
-        cv.put(TripColumns.TripType, isWork ? WORK : PRIVATE);
+        cv.put(TripColumns.TripType, isWork ? Utility.WORK : Utility.PRIVATE);
 
         // The first trip registered will not have a previous trip
         if(mLastTripId != CursorHelper.INVALID_ID)
@@ -233,7 +228,7 @@ public class RegisterFragment extends Fragment {
 
         if(tripCursor != null){
             if (tripCursor.moveToFirst()) {
-                boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == WORK ? true : false;
+                boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == Utility.WORK ? true : false;
                 mTripCardIcon.setImageResource(Utility.getResourceForTripIcon(isWork));
 
                 mTripCardDate.setText(CursorHelper.getString(tripCursor, TripColumns.Date));

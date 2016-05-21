@@ -4,6 +4,10 @@ import java.text.SimpleDateFormat;
 
 public class Utility {
 
+    // Trip types
+    public static final Integer PRIVATE = 0;
+    public static final Integer WORK = 1;
+
     public static int getResourceForTripIcon(boolean isWork) {
         return isWork ? R.mipmap.ic_work_black_48dp : R.mipmap.ic_account_circle_black_48dp;
     }

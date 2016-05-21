@@ -67,7 +67,7 @@
                     android:textColor="@color/abc_primary_text_material_light"
                     android:inputType="text"
                     android:imeOptions="actionNext"
-                    android:hint="@string/destination"/>
+                    android:hint="@string/destination" />
             </FrameLayout>
 
             <FrameLayout
@@ -91,7 +91,7 @@
                     android:inputType="number"
                     android:ems="6"
                     android:imeOptions="actionNext"
-                    android:hint="@string/mileage"/>
+                    android:hint="@string/mileage" />
             </FrameLayout>
 
             <FrameLayout
