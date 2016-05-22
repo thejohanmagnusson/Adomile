@@ -25,28 +25,15 @@
                 android:paddingTop="@dimen/card_title_large_padding_top"
                 android:paddingLeft="@dimen/card_content_padding"
                 android:paddingStart="@dimen/card_content_padding"
+                android:paddingBottom="@dimen/card_content_large_padding"
                 android:textSize="@dimen/card_large_title_text_size"
                 tools:text="June" />
-
-            <TextView
-                android:id="@+id/mileage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/period"
-                android:paddingTop="@dimen/card_subtitle_padding_top"
-                android:paddingLeft="@dimen/card_content_padding"
-                android:paddingStart="@dimen/card_content_padding"
-                android:paddingBottom="@dimen/card_title_margin_bottom"
-                android:textSize="@dimen/card_subtitle_text_size"
-                tools:text="4567 - 4598" />
 
             <lecho.lib.hellocharts.view.PieChartView
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_below="@id/mileage"
+                android:layout_height="250dp"
+                android:layout_below="@id/period"
                 android:layout_centerHorizontal="true" />
 
             <FrameLayout
@@ -71,15 +58,17 @@
                     android:layout_height="wrap_content">
 
                     <View
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:background="@drawable/circle_private" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        tools:text="P"/>
+                        android:textSize="@dimen/title_text_size"
+                        android:textColor="@color/white"
+                        android:text="P"/>
                 </FrameLayout>
 
                 <TextView
@@ -87,8 +76,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="@dimen/content_space"
+                    android:layout_marginStart="@dimen/content_space"
+                    android:textSize="@dimen/title_text_size"
                     tools:text="4200"/>
             </LinearLayout>
 
@@ -106,15 +96,17 @@
                     android:layout_height="wrap_content">
 
                     <View
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:background="@drawable/circle_work" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        tools:text="W"/>
+                        android:textSize="@dimen/title_text_size"
+                        android:textColor="@color/white"
+                        android:text="W"/>
                 </FrameLayout>
 
                 <TextView
@@ -122,8 +114,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="@dimen/content_space"
+                    android:layout_marginStart="@dimen/content_space"
+                    android:textSize="@dimen/title_text_size"
                     tools:text="4855"/>
             </LinearLayout>
         </RelativeLayout>

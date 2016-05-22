@@ -105,11 +105,11 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         if(mCursor.moveToNext()) {
             int startMileage = mCursor.getInt(mCursor.getColumnIndex(TripColumns.Mileage));
 
-            String formatedStartMileage = String.format(mContext.getResources().getString(R.string.trip_km), mileage - startMileage);
+            String formatedStartMileage = String.format(mContext.getResources().getString(R.string.trip_mileage_summary), mileage - startMileage);
             holder.km.setText(formatedStartMileage);
         }
         else {
-            String km = String.format(mContext.getResources().getString(R.string.trip_km), 0);
+            String km = String.format(mContext.getResources().getString(R.string.trip_mileage_summary), 0);
             holder.km.setText(km);
             holder.km.setContentDescription(km);
         }

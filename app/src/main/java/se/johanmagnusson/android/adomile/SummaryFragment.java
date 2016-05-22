@@ -18,7 +18,6 @@ import java.util.List;
 
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
-import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.PieChartView;
 import se.johanmagnusson.android.adomile.database.TripColumns;
 import se.johanmagnusson.android.adomile.database.TripProvider;
@@ -40,7 +39,6 @@ public class SummaryFragment extends Fragment{
     private TextView mTotalPrivate;
     private TextView mTotalWork;
     private TextView mPeriod;
-    private TextView mMileage;
 
     @Nullable
     @Override
@@ -51,7 +49,6 @@ public class SummaryFragment extends Fragment{
         mTotalPrivate = (TextView) root.findViewById(R.id.total_private_mileage);
         mTotalWork = (TextView) root.findViewById(R.id.total_work_mileage);
         mPeriod = (TextView) root.findViewById(R.id.period);
-        mMileage = (TextView) root.findViewById(R.id.mileage);
 
         mChart.setChartRotationEnabled(false);
         mChart.setClickable(false);
@@ -141,32 +138,47 @@ public class SummaryFragment extends Fragment{
         protected void onPostExecute(Bundle bundle) {
             if(bundle != null) {
 
-                mPeriod.setText(bundle.getString(KEY_MONTH));
-                mMileage.setText(Integer.toString(bundle.getInt(KEY_INBOUND)));
-                mOutbound.setText(Integer.toString(bundle.getInt(KEY_OUTBOUND)));
+                String period = bundle.getString(KEY_MONTH);
+                period = period.substring(0,1).toUpperCase() + period.substring(1).toLowerCase();
+                mPeriod.setText(period);
+                mPeriod.setContentDescription(period);
 
+                int inbound = bundle.getInt(KEY_INBOUND);
+                int outbound = bundle.getInt(KEY_OUTBOUND);
                 int privateMileage = bundle.getInt(KEY_PRIVATE_MILEAGE);
-                mTotalPrivate.setText(Integer.toString(privateMileage));
-
                 int workMileage = bundle.getInt(KEY_WORK_MILEAGE);
-                mTotalWork.setText(Integer.toString(workMileage));
 
-                updateChart(privateMileage, workMileage);
+                updateChart(inbound, outbound, privateMileage, workMileage);
+
+                String sPrivateMileage = String.format(getContext().getResources().getString(R.string.trip_mileage_summary), privateMileage);
+                mTotalPrivate.setText(sPrivateMileage);
+                mTotalPrivate.setContentDescription(sPrivateMileage);
+
+                String sWorkMileage = String.format(getContext().getResources().getString(R.string.trip_mileage_summary), workMileage);
+                mTotalWork.setText(sWorkMileage);
+                mTotalWork.setContentDescription(sWorkMileage);
             }
         }
     }
 
     //todo: handle if no data for the period, show some icon instead of chart?
-    private void updateChart(int privateMileage, int workMileage) {
+    private void updateChart(int inbound, int outbound, int privateMileage, int workMileage) {
         List<SliceValue> values = new ArrayList<>();
 
-        SliceValue workValue = new SliceValue((float) workMileage * 30 + 15, ChartUtils.pickColor());
-        SliceValue privateValue = new SliceValue((float) privateMileage * 30 + 15, ChartUtils.pickColor());
-        values.add(workValue);
+        SliceValue privateValue = new SliceValue((float) privateMileage * 30 + 15, getContext().getResources().getColor(Utility.getResourceForTripColor(false)));
+        SliceValue workValue = new SliceValue((float) workMileage * 30 + 15, getContext().getResources().getColor(Utility.getResourceForTripColor(true)));
+
         values.add(privateValue);
+        values.add(workValue);
 
         mChartData = new PieChartData(values);
         mChartData.setHasCenterCircle(true);
+
+        mChartData.setCenterText1FontSize(20);
+        mChartData.setCenterText1(getContext().getResources().getString(R.string.mileage));
+
+        mChartData.setCenterText2(String.format(getContext().getResources().getString(R.string.in_out_mileage), inbound, outbound));
+        mChartData.setCenterText2FontSize(20);
 
         mChart.setPieChartData(mChartData);
     }

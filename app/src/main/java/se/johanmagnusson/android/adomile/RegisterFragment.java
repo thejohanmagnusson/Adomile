@@ -249,7 +249,7 @@ public class RegisterFragment extends Fragment {
                         if (previousTripCursor.moveToFirst()) {
                             int startMileage = CursorHelper.getInt(previousTripCursor, TripColumns.Mileage);
 
-                            mTripCardKm.setText(String.format(this.getResources().getString(R.string.trip_km), mileage - startMileage));
+                            mTripCardKm.setText(String.format(this.getResources().getString(R.string.trip_mileage_summary), mileage - startMileage));
                         }
                     }
                 }
