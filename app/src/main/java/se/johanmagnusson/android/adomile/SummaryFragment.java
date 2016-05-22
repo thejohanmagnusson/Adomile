@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,8 +27,8 @@ public class SummaryFragment extends Fragment{
 
     public static final String TAG = SummaryFragment.class.getName();
 
-    private static final String KEY_FROM_DATE = "from_date";
-    private static final String KEY_TO_DATE = "to_date";
+
+    private static final String KEY_MONTH = "month";
     private static final String KEY_INBOUND = "inbound";
     private static final String KEY_OUTBOUND = "outbound";
     private static final String KEY_PRIVATE_MILEAGE = "private_mileage";
@@ -39,8 +40,7 @@ public class SummaryFragment extends Fragment{
     private TextView mTotalPrivate;
     private TextView mTotalWork;
     private TextView mPeriod;
-    private TextView mInbound;
-    private TextView mOutbound;
+    private TextView mMileage;
 
     @Nullable
     @Override
@@ -51,8 +51,7 @@ public class SummaryFragment extends Fragment{
         mTotalPrivate = (TextView) root.findViewById(R.id.total_private_mileage);
         mTotalWork = (TextView) root.findViewById(R.id.total_work_mileage);
         mPeriod = (TextView) root.findViewById(R.id.period);
-        mInbound = (TextView) root.findViewById(R.id.inbound_km);
-        mOutbound = (TextView) root.findViewById(R.id.outbound_km);
+        mMileage = (TextView) root.findViewById(R.id.mileage);
 
         mChart.setChartRotationEnabled(false);
         mChart.setClickable(false);
@@ -64,27 +63,30 @@ public class SummaryFragment extends Fragment{
     public void onStart() {
         super.onStart();
 
-        // Get first day of the month
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        String fromDate = Utility.getDateFormat().format(calendar.getTime());
-
-        // Get last day of the month
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        String toDate = Utility.getDateFormat().format(calendar.getTime());
-
-        new TripCalculationTask().execute(fromDate, toDate);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        new TripCalculationTask().execute(year, month);
     }
 
-    public class TripCalculationTask extends AsyncTask<String, Void, Bundle> {
+    public class TripCalculationTask extends AsyncTask<Integer, Void, Bundle> {
 
         @Override
-        protected Bundle doInBackground(String... parameter) {
-            if(parameter.length == 0)
+        protected Bundle doInBackground(Integer... parameter) {
+            if(parameter.length != 2)
                 return null;
 
-            String fromDate = parameter[0];
-            String toDate = parameter[1];
+            int year = parameter[0];
+            int month = parameter[1];
+
+            // Get first day of the month
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, 1);
+            String fromDate = Utility.getDateFormat().format(calendar.getTime());
+
+            // Get last day of the month
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String toDate = Utility.getDateFormat().format(calendar.getTime());
 
             /* Schematic TripProvider can´t handle this kind of selection.
             It always appends =? to the whereColumn making it impossible to use i.e. >= instead.
@@ -126,8 +128,7 @@ public class SummaryFragment extends Fragment{
             cursor.close();
 
             Bundle result = new Bundle();
-            result.putString(KEY_FROM_DATE, fromDate);
-            result.putString(KEY_TO_DATE, toDate);
+            result.putString(KEY_MONTH, new SimpleDateFormat("MMMM").format(calendar.getTime()));
             result.putInt(KEY_INBOUND, inbound);
             result.putInt(KEY_OUTBOUND, outbound);
             result.putInt(KEY_PRIVATE_MILEAGE, privateMileage);
@@ -140,8 +141,8 @@ public class SummaryFragment extends Fragment{
         protected void onPostExecute(Bundle bundle) {
             if(bundle != null) {
 
-                mPeriod.setText(bundle.getString(KEY_FROM_DATE) + " - " + bundle.getString(KEY_TO_DATE));
-                mInbound.setText(Integer.toString(bundle.getInt(KEY_INBOUND)));
+                mPeriod.setText(bundle.getString(KEY_MONTH));
+                mMileage.setText(Integer.toString(bundle.getInt(KEY_INBOUND)));
                 mOutbound.setText(Integer.toString(bundle.getInt(KEY_OUTBOUND)));
 
                 int privateMileage = bundle.getInt(KEY_PRIVATE_MILEAGE);
