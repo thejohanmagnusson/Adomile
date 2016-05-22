@@ -72,7 +72,13 @@ public class MainActivity extends AppCompatActivity
             public void onPageSelected(int position) {
                 if(position != REGISTER_PAGE){
                     InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+                    try {
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    }
+                    catch (NullPointerException e){
+                        Log.d(TAG, "Error trying to get current focus: " + e.getMessage());
+                    }
                 }
             }
 

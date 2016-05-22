@@ -2,11 +2,11 @@ package se.johanmagnusson.android.adomile;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import se.johanmagnusson.android.adomile.database.TripColumns;
@@ -21,12 +21,19 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
 
     private Cursor mCursor;
 
+
+    private final Drawable mPrivateIcon;
+    private final Drawable mWorkIcon;
+    private final String mPrivateLetter;
+    private final String mWorkLetter;
+
     public interface OnClickListener {
         void onClick(long id, ViewHolder viewHolder);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public final ImageView icon;
+        public final View iconShape;
+        public final TextView iconText;
         public final TextView destination;
         public final TextView date;
         public final TextView km;
@@ -35,7 +42,8 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
 
-            icon = (ImageView) itemView.findViewById(R.id.icon);
+            iconShape = (View) itemView.findViewById(R.id.icon_shape);
+            iconText = (TextView) itemView.findViewById(R.id.icon_text);
             destination = (TextView) itemView.findViewById(R.id.trip_destination);
             date = (TextView) itemView.findViewById(R.id.trip_date);
             km = (TextView) itemView.findViewById(R.id.trip_km);
@@ -61,6 +69,13 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         mContext = context;
         mOnClickListener = onClickListener;
         mEmptyView = emptyView;
+
+        // FIXME: 2016-05-23 handel dep, api
+        mPrivateIcon = mContext.getResources().getDrawable(R.drawable.circle_private);
+        mWorkIcon = mContext.getResources().getDrawable(R.drawable.circle_work);
+
+        mPrivateLetter = mContext.getResources().getString(R.string.trip_type_letter_private);
+        mWorkLetter = mContext.getResources().getString(R.string.trip_type_letter_work);
     }
 
 
@@ -85,8 +100,10 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         //todo: move to utility, same code is used in register fragment to show last trip
 
         boolean isWork = mCursor.getInt(mCursor.getColumnIndex(TripColumns.TripType)) == 1 ? true : false;
-        holder.icon.setImageResource(Utility.getResourceForTripIcon(isWork));
-        holder.icon.setContentDescription(Utility.getContentDescriptionForTripIcon(mContext, isWork));
+
+        holder.iconShape.setBackground(isWork ? mWorkIcon : mPrivateIcon);
+        holder.iconText.setText(isWork ? mWorkLetter : mPrivateLetter);
+        //todo: content description icon
         
         String destination = mCursor.getString(mCursor.getColumnIndex(TripColumns.Destination));
         holder.destination.setText(destination);
