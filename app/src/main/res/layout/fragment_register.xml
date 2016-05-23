@@ -18,12 +18,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/abc_primary_text_material_light"
-                android:textSize="24sp"
+                android:layout_marginTop="@dimen/card_title_padding_top"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/title_margin_bottom"
+                android:textSize="@dimen/headline_text_size"
                 android:text="@string/register_trip"
                 android:contentDescription="@string/register_trip"/>
 
@@ -58,8 +57,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="@dimen/icon_horizontal_margin"
+                    android:layout_marginStart="@dimen/icon_horizontal_margin"
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/ic_map_marker_black_24dp"
                     android:alpha="@dimen/icon_active_opacity"
@@ -69,10 +68,9 @@
                     android:id="@+id/destination"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginStart="72dp"
-                    android:textColor="@color/abc_primary_text_material_light"
-                    android:inputType="text"
+                    android:layout_marginLeft="@dimen/icon_text_margin"
+                    android:layout_marginStart="@dimen/icon_text_margin"
+                    android:inputType="textCapSentences"
                     android:imeOptions="actionNext"
                     android:hint="@string/destination"
                     />
@@ -85,8 +83,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="@dimen/icon_horizontal_margin"
+                    android:layout_marginStart="@dimen/icon_horizontal_margin"
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/ic_gauge_black_24dp"
                     android:alpha="@dimen/icon_active_opacity"
@@ -96,9 +94,8 @@
                     android:id="@+id/mileage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginStart="72dp"
-                    android:textColor="@color/abc_primary_text_material_light"
+                    android:layout_marginLeft="@dimen/icon_text_margin"
+                    android:layout_marginStart="@dimen/icon_text_margin"
                     android:inputType="number"
                     android:ems="6"
                     android:imeOptions="actionNext"
@@ -112,8 +109,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="@dimen/icon_horizontal_margin"
+                    android:layout_marginStart="@dimen/icon_horizontal_margin"
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/ic_insert_comment_black_24dp"
                     android:alpha="@dimen/icon_active_opacity"
@@ -123,9 +120,8 @@
                     android:id="@+id/note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginStart="72dp"
-                    android:textColor="@color/abc_primary_text_material_light"
+                    android:layout_marginLeft="@dimen/icon_text_margin"
+                    android:layout_marginStart="@dimen/icon_text_margin"
                     android:inputType="text"
                     android:hint="@string/note"
                     android:ems="12"
@@ -144,22 +140,18 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/private_button"
                     android:layout_width="wrap_content"
-                    android:minWidth="88dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/action_margin_top"
                     android:text="@string/trip_type_private"
-                    android:contentDescription="@string/trip_type_private"
-                    android:theme="@style/ButtonTheme"/>
+                    android:contentDescription="@string/trip_type_private" />
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/work_button"
                     android:layout_width="wrap_content"
-                    android:minWidth="88dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/action_margin_top"
                     android:text="@string/trip_type_work"
-                    android:contentDescription="@string/trip_type_work"
-                    android:theme="@style/ButtonTheme"/>
+                    android:contentDescription="@string/trip_type_work" />
             </LinearLayout>
         </LinearLayout>
 

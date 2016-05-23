@@ -168,6 +168,8 @@ public class RegisterFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        Log.d(TAG, "------- start");
+
         mLastTripId = getLastTrip();
     }
 
@@ -193,7 +195,11 @@ public class RegisterFragment extends Fragment {
 
     //todo: make method
     private boolean validateInput() {
-        return true;
+        boolean valid = false;
+
+        mDestination.length();
+
+        return valid;
     }
 
     private void registerTrip(boolean isWork) {
