@@ -212,7 +212,7 @@ public class RegisterFragment extends Fragment {
 
         if (uri != null) {
             mLastTripId = ContentUris.parseId(uri);
-            showTripCard(mLastTripId);
+            //showTripCard(mLastTripId);
         }
 
         // Callback to activity

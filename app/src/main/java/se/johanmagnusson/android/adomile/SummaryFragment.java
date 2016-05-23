@@ -110,11 +110,13 @@ public class SummaryFragment extends Fragment{
                 mileage = cursor.getInt(cursor.getColumnIndex(TripColumns.Mileage));
                 if(i == 0){inbound = mileage;}
 
-                // Add as work or private mileage
-                if(cursor.getInt(cursor.getColumnIndex(TripColumns.TripType)) == Utility.WORK)
-                    workMileage += mileage - previousMileage;
-                else
-                    privateMileage += mileage - previousMileage;
+                // Add as work or private mileage. Only first trip can be 0.
+                if(mileage > 0) {
+                    if (cursor.getInt(cursor.getColumnIndex(TripColumns.TripType)) == Utility.WORK)
+                        workMileage += mileage - previousMileage;
+                    else
+                        privateMileage += mileage - previousMileage;
+                }
 
                 previousMileage = mileage;
                 cursor.moveToNext();
