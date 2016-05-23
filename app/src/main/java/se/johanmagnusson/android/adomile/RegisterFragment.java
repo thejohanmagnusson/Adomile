@@ -4,6 +4,7 @@ package se.johanmagnusson.android.adomile;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -44,9 +44,9 @@ public class RegisterFragment extends Fragment {
     private EditText mNote;
     private Button mPrivate;
     private Button mWork;
-    private ViewGroup mPreviousTripContainer;
     private View mTripCard;
-    private ImageView mTripCardIcon;
+    private View mTripCardIconShape;
+    private TextView mTripCardIconText;
     private TextView mTripCardDestination;
     private TextView mTripCardDate;
     private TextView mTripCardKm;
@@ -97,9 +97,9 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        mPreviousTripContainer = (ViewGroup) root.findViewById(R.id.previous_trip_container);
         mTripCard = inflater.inflate(R.layout.previous_trip_card, null);
-        mTripCardIcon = (ImageView) mTripCard.findViewById(R.id.icon);
+        mTripCardIconShape = (View) mTripCard.findViewById(R.id.icon_shape);
+        mTripCardIconText = (TextView) mTripCard.findViewById(R.id.icon_text);
         mTripCardDestination = (TextView) mTripCard.findViewById(R.id.trip_destination);
         mTripCardDate = (TextView) mTripCard.findViewById(R.id.trip_date);
         mTripCardKm = (TextView) mTripCard.findViewById(R.id.trip_km);
@@ -195,9 +195,7 @@ public class RegisterFragment extends Fragment {
 
     //todo: make method
     private boolean validateInput() {
-        boolean valid = false;
-
-        mDestination.length();
+        boolean valid = true;
 
         return valid;
     }
@@ -218,7 +216,7 @@ public class RegisterFragment extends Fragment {
 
         if (uri != null) {
             mLastTripId = ContentUris.parseId(uri);
-            //showTripCard(mLastTripId);
+            showTripCard(mLastTripId);
         }
 
         // Callback to activity
@@ -228,36 +226,51 @@ public class RegisterFragment extends Fragment {
 
     private void showTripCard(long tripId) {
 
-        // Is the card added to the view?
-        if (mPreviousTripContainer.getChildCount() < 1)
-            mPreviousTripContainer.addView(mTripCard);
-
         Cursor tripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(tripId), null, null, null, null);
 
-        if(tripCursor != null){
-            if (tripCursor.moveToFirst()) {
-                boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == Utility.WORK ? true : false;
-                mTripCardIcon.setImageResource(Utility.getResourceForTripIcon(isWork));
+        if(tripCursor != null && tripCursor.moveToFirst()){
+            boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == Utility.WORK ? true : false;
 
-                mTripCardDate.setText(CursorHelper.getString(tripCursor, TripColumns.Date));
-                mTripCardDestination.setText(CursorHelper.getString(tripCursor, TripColumns.Destination));
+            Drawable icon;
+            String letter;
 
-                int mileage = CursorHelper.getInt(tripCursor, TripColumns.Mileage);
-                mTripCardMileage.setText(String.format(this.getResources().getString(R.string.trip_mileage), mileage));
+            // FIXME: 2016-05-23 handel dep, api
+            if(isWork) {
+                icon = getContext().getResources().getDrawable(R.drawable.circle_private);
+                letter =getContext().getResources().getString(R.string.trip_type_letter_work);
+            }
+            else {
+                icon = getContext().getResources().getDrawable(R.drawable.circle_work);
+                letter = getContext().getResources().getString(R.string.trip_type_letter_private);
+            }
+            mTripCardIconShape.setBackground(icon);
+            mTripCardIconText.setText(letter);
+            //todo: content description icon
 
-                // Get start destination for the trip to calculate distance traveled (the trip before this one)
-                long previousTripId = CursorHelper.getTripId(tripCursor);
+            String destination = tripCursor.getString(tripCursor.getColumnIndex(TripColumns.Destination));
+            mTripCardDestination.setText(destination);
+            mTripCardDestination.setContentDescription(destination);
 
-                if (previousTripId != CursorHelper.INVALID_ID) {
-                    Cursor previousTripCursor = getActivity().getContentResolver().query(Trips.withId(previousTripId), null, null, null, null);
+            String date = tripCursor.getString(tripCursor.getColumnIndex(TripColumns.Date));
+            mTripCardDate.setText(date);
+            mTripCardDate.setContentDescription(date);
 
-                    if(previousTripCursor != null) {
-                        if (previousTripCursor.moveToFirst()) {
-                            int startMileage = CursorHelper.getInt(previousTripCursor, TripColumns.Mileage);
+            int mileage = tripCursor.getInt(tripCursor.getColumnIndex(TripColumns.Mileage));
+            String formattedMileage = String.format(getContext().getResources().getString(R.string.trip_mileage), mileage);
+            mTripCardMileage.setText(formattedMileage);
+            mTripCardMileage.setContentDescription(formattedMileage);
 
-                            mTripCardKm.setText(String.format(this.getResources().getString(R.string.trip_mileage_summary), mileage - startMileage));
-                        }
-                    }
+            // Get start destination for the trip to calculate distance traveled (the trip before this one)
+            long previousTripId = CursorHelper.getTripId(tripCursor);
+
+            if (previousTripId != CursorHelper.INVALID_ID) {
+                Cursor previousTripCursor = getActivity().getContentResolver().query(Trips.withId(previousTripId), null, null, null, null);
+
+                if(previousTripCursor != null && previousTripCursor.moveToFirst()) {
+                    int startMileage = tripCursor.getInt(tripCursor.getColumnIndex(TripColumns.Mileage));
+
+                    String formattedStartMileage = String.format(getContext().getResources().getString(R.string.trip_mileage_summary), mileage - startMileage);
+                    mTripCardKm.setText(formattedStartMileage);
                 }
             }
             tripCursor.close();
