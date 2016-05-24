@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -38,13 +40,14 @@ public class RegisterFragment extends Fragment {
     private final String KEY_NOTE = "note";
     private final String KEY_LAST_TRIP = "last_trip";
 
+    private RelativeLayout mContainer;
     private TextView mDate;
     private EditText mDestination;
     private EditText mMileage;
     private EditText mNote;
     private Button mPrivate;
     private Button mWork;
-    private View mTripCard;
+    private CardView mTripCard;
     private View mTripCardIconShape;
     private TextView mTripCardIconText;
     private TextView mTripCardDestination;
@@ -65,6 +68,8 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_register, container, false);
+
+        mContainer = (RelativeLayout) root.findViewById(R.id.container);
 
         mDate = (TextView) root.findViewById(R.id.register_date);
         mDate.setOnClickListener(new View.OnClickListener() {
@@ -97,13 +102,14 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        mTripCard = inflater.inflate(R.layout.previous_trip_card, null);
-        mTripCardIconShape = (View) mTripCard.findViewById(R.id.icon_shape);
-        mTripCardIconText = (TextView) mTripCard.findViewById(R.id.icon_text);
-        mTripCardDestination = (TextView) mTripCard.findViewById(R.id.trip_destination);
-        mTripCardDate = (TextView) mTripCard.findViewById(R.id.trip_date);
-        mTripCardKm = (TextView) mTripCard.findViewById(R.id.trip_km);
-        mTripCardMileage = (TextView) mTripCard.findViewById(R.id.trip_mileage);
+        mTripCard = (CardView) root.findViewById(R.id.trip_card);
+        mTripCard.setVisibility(View.INVISIBLE);
+        mTripCardIconShape = (View) root.findViewById(R.id.icon_shape);
+        mTripCardIconText = (TextView) root.findViewById(R.id.icon_text);
+        mTripCardDestination = (TextView) root.findViewById(R.id.trip_destination);
+        mTripCardDate = (TextView) root.findViewById(R.id.trip_date);
+        mTripCardKm = (TextView) root.findViewById(R.id.trip_km);
+        mTripCardMileage = (TextView) root.findViewById(R.id.trip_mileage);
 
         // Restore saved data
         if (savedInstanceState != null) {
@@ -171,6 +177,7 @@ public class RegisterFragment extends Fragment {
         Log.d(TAG, "------- start");
 
         mLastTripId = getLastTrip();
+        updateTripCard(mLastTripId);
     }
 
     private long getLastTrip() {
@@ -216,7 +223,7 @@ public class RegisterFragment extends Fragment {
 
         if (uri != null) {
             mLastTripId = ContentUris.parseId(uri);
-            showTripCard(mLastTripId);
+            updateTripCard(mLastTripId);
         }
 
         // Callback to activity
@@ -224,7 +231,7 @@ public class RegisterFragment extends Fragment {
         ((OnRegisterTripListener) getActivity()).onTripRegistered();
     }
 
-    private void showTripCard(long tripId) {
+    private void updateTripCard(long tripId) {
 
         Cursor tripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(tripId), null, null, null, null);
 
@@ -236,11 +243,11 @@ public class RegisterFragment extends Fragment {
 
             // FIXME: 2016-05-23 handel dep, api
             if(isWork) {
-                icon = getContext().getResources().getDrawable(R.drawable.circle_private);
+                icon = getContext().getResources().getDrawable(R.drawable.circle_work);
                 letter =getContext().getResources().getString(R.string.trip_type_letter_work);
             }
             else {
-                icon = getContext().getResources().getDrawable(R.drawable.circle_work);
+                icon = getContext().getResources().getDrawable(R.drawable.circle_private);
                 letter = getContext().getResources().getString(R.string.trip_type_letter_private);
             }
             mTripCardIconShape.setBackground(icon);
@@ -274,6 +281,13 @@ public class RegisterFragment extends Fragment {
                 }
             }
             tripCursor.close();
+
+            if(mTripCard.getVisibility() != View.VISIBLE)
+                mTripCard.setVisibility(View.VISIBLE);
+
+            // Animate card
+            mTripCard.animate().translationX(mContainer.getWidth()).setDuration(250).withLayer();
+
         }
     }
 
