@@ -60,6 +60,10 @@ public class SummaryFragment extends Fragment{
     public void onStart() {
         super.onStart();
 
+        upateTripData();
+    }
+
+    public void upateTripData() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);

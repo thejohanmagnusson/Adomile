@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private Fragment mCurrentFragment;
+        private int mCurrentPosition = -1;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -170,13 +171,28 @@ public class MainActivity extends AppCompatActivity
             return mCurrentFragment;
         }
 
-        // Keep a reference to the current fragment so we can communicate with it
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+
+            // Keep a reference to the current fragment so we can communicate with it
             if(getCurrentFragment() != object)
                 mCurrentFragment = (Fragment) object;
 
-            super.setPrimaryItem(container, position, object);
+            // USe the position to check if we have handled this page already, this method getts called multiple times!
+            if(position == mCurrentPosition)
+                return;
+
+            mCurrentPosition = position;
+
+            // Do any updates that is needed for the fragment
+            if (object instanceof SummaryFragment) {
+                SummaryFragment fragment = (SummaryFragment) object;
+
+                if(fragment.isResumed()){
+                    fragment.upateTripData();
+                }
+            }
         }
 
         @Override
