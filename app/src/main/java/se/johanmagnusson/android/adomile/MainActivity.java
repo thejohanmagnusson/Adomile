@@ -149,8 +149,6 @@ public class MainActivity extends AppCompatActivity
     // LogFragment.OnTripSelectedListener
     @Override
     public void onTripSelected(long id) {
-        //todo: check/handle if two pane view
-
         Intent intent = new Intent(this, TripDetailActivity.class).putExtra(TripDetailFragment.TRIP_ID_KEY, id);
         startActivity(intent);
     }
@@ -200,13 +198,10 @@ public class MainActivity extends AppCompatActivity
             // getItem is called to instantiate the fragment for the given page.
             switch (position) {
                 case SUMMARY_PAGE:
-                    Log.d(TAG, "------------- Get Summary fragment");
                     return new SummaryFragment();
                 case REGISTER_PAGE:
-                    Log.d(TAG, "------------- Get Register fragment");
                     return new RegisterFragment();
                 default:
-                    Log.d(TAG, "------------- Get Log fragment");
                     return new LogFragment();
             }
         }

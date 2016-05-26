@@ -211,8 +211,6 @@ public class RegisterFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        Log.d(TAG, "------- start");
-
         getLastTripData();
         setButtonState(isValidInput());
 

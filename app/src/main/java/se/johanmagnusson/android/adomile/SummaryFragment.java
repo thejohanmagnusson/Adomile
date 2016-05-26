@@ -167,7 +167,6 @@ public class SummaryFragment extends Fragment{
         }
     }
 
-    //todo: handle if no data for the period, show some icon instead of chart?
     private void updateChart(int inbound, int outbound, int privateMileage, int workMileage) {
         List<SliceValue> values = new ArrayList<>();
 
