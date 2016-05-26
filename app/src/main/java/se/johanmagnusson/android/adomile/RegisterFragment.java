@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,8 @@ public class RegisterFragment extends Fragment {
     private final String KEY_NOTE = "note";
     private final String KEY_LAST_TRIP = "last_trip";
 
+    private final int NO_LAST_TRIP_MILEAGE = -1;
+
     private RelativeLayout mContainer;
     private TextView mDate;
     private EditText mDestination;
@@ -56,6 +60,7 @@ public class RegisterFragment extends Fragment {
     private TextView mTripCardMileage;
 
     private long mLastTripId;
+    private int mLastTripMileage = NO_LAST_TRIP_MILEAGE;
 
     private SimpleDateFormat mDateFormat = Utility.getDateFormat();
 
@@ -80,7 +85,41 @@ public class RegisterFragment extends Fragment {
         });
 
         mDestination = (EditText) root.findViewById(R.id.destination);
+        mDestination.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setButtonState(isValidInput());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Do nothing
+            }
+        });
+
         mMileage = (EditText) root.findViewById(R.id.mileage);
+        mMileage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setButtonState(isValidInput());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Do nothing
+            }
+        });
+
         mNote = (EditText) root.findViewById(R.id.note);
 
         //todo: only enable buttons if valid input
@@ -88,8 +127,7 @@ public class RegisterFragment extends Fragment {
         mPrivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateInput())
-                    registerTrip(false);
+                registerTrip(false);
             }
         });
 
@@ -97,8 +135,7 @@ public class RegisterFragment extends Fragment {
         mWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateInput())
-                    registerTrip(true);
+                registerTrip(true);
             }
         });
 
@@ -176,22 +213,29 @@ public class RegisterFragment extends Fragment {
 
         Log.d(TAG, "------- start");
 
-        mLastTripId = getLastTrip();
-        updateTripCard(mLastTripId);
+        getLastTripData();
+        setButtonState(isValidInput());
+
+        if(mLastTripId != CursorHelper.INVALID_ID)
+            updateTripCard();
     }
 
-    private long getLastTrip() {
+    private void getLastTripData() {
         // Get last trip (if any)
         Cursor cursor = TripProvider.getLastTrip(getContext());
 
         if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
 
-            long id = CursorHelper.getTripId(cursor);
+            mLastTripId = CursorHelper.getTripId(cursor);
+            mLastTripMileage = CursorHelper.getTripMileage(cursor);
+
             cursor.close();
-            return id;
         }
-        return CursorHelper.INVALID_ID;
+        else {
+            mLastTripId = CursorHelper.INVALID_ID;
+            mLastTripMileage = NO_LAST_TRIP_MILEAGE;
+        }
     }
 
     public void setDate(@NonNull Calendar calendar) {
@@ -200,11 +244,38 @@ public class RegisterFragment extends Fragment {
         mDate.setContentDescription(date);
     }
 
-    //todo: make method
-    private boolean validateInput() {
-        boolean valid = true;
+    private boolean isValidInput() {
+        String destination = mDestination.getText().toString();
+        String mileage = mMileage.getText().toString();
 
-        return valid;
+        return isValidDestination(destination) && isValidMileage(mLastTripMileage, mileage);
+    }
+
+    private boolean isValidDestination(String destination) {
+        destination.trim();
+
+        if(destination != null && destination.length() > 0)
+            return true;
+
+        return false;
+    }
+
+    private boolean isValidMileage(int lastMileage, String mileage) {
+        mileage.trim();
+
+        if(!mileage.isEmpty()) {
+            int mil = Integer.parseInt(mileage);
+
+            if(mil > lastMileage || lastMileage == NO_LAST_TRIP_MILEAGE)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void setButtonState(boolean enabled) {
+        mPrivate.setEnabled(enabled);
+        mWork.setEnabled(enabled);
     }
 
     private void registerTrip(boolean isWork) {
@@ -223,7 +294,7 @@ public class RegisterFragment extends Fragment {
 
         if (uri != null) {
             mLastTripId = ContentUris.parseId(uri);
-            updateTripCard(mLastTripId);
+            updateTripCard();
         }
 
         // Callback to activity
@@ -231,9 +302,9 @@ public class RegisterFragment extends Fragment {
         ((OnRegisterTripListener) getActivity()).onTripRegistered();
     }
 
-    private void updateTripCard(long tripId) {
+    private void updateTripCard() {
 
-        Cursor tripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(tripId), null, null, null, null);
+        Cursor tripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(mLastTripId), null, null, null, null);
 
         if(tripCursor != null && tripCursor.moveToFirst()){
             boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == Utility.WORK ? true : false;

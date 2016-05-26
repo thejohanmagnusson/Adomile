@@ -29,6 +29,16 @@ public abstract class CursorHelper {
         return null;
     }
 
+    public static int getTripMileage(Cursor cursor) {
+        int columnIndex = cursor.getColumnIndex(TripColumns.Mileage);
+
+        if (columnIndex >= 0 && !cursor.isNull(columnIndex)) {
+            return cursor.getInt(columnIndex);
+        }
+
+        return 0;
+    }
+
     // https://github.com/SimonVT/schematic/issues/43
     public static long getLong(Cursor cursor, String columnName) {
         int columnIndex = cursor.getColumnIndex(columnName);
