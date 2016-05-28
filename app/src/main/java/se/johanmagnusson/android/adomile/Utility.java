@@ -10,10 +10,6 @@ public class Utility {
     public static final Integer PRIVATE = 0;
     public static final Integer WORK = 1;
 
-    public static int getResourceForTripIcon(boolean isWork) {
-        return isWork ? R.mipmap.ic_work_black_48dp : R.mipmap.ic_account_circle_black_48dp;
-    }
-
     public static int getResourceForTripColor(boolean isWork) {
         return isWork ? R.color.colorAccentAlternative : R.color.colorAccent;
     }

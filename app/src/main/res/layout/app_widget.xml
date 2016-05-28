@@ -1,0 +1,128 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/appwidget_bg"
+    tools:layout_width="150dp"
+    tools:layout_height="80dp">
+
+    <LinearLayout
+        android:id="@+id/private_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/circle_private" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:text="@string/trip_type_letter_private" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/total_mileage_private"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/content_space"
+            android:layout_marginStart="@dimen/content_space"
+            android:textColor="@color/black"
+            android:alpha="@dimen/text_contrast_87"
+            android:textSize="@dimen/body_text_size"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="12345 km"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/work_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/private_container">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/circle_work" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:text="@string/trip_type_letter_work" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/total_mileage_work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/content_space"
+            android:layout_marginStart="@dimen/content_space"
+            android:textColor="@color/black"
+            android:alpha="@dimen/text_contrast_87"
+            android:textSize="@dimen/body_text_size"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="13749 km"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mileage_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/work_container">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/ic_ray_start_end_black_24dp"
+            android:alpha="@dimen/icon_active_opacity"/>
+
+        <TextView
+            android:id="@+id/mileage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/content_space"
+            android:layout_marginStart="@dimen/content_space"
+            android:textColor="@color/black"
+            android:alpha="@dimen/text_contrast_87"
+            android:textSize="@dimen/body_text_size"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="12340 - 15640"/>
+    </LinearLayout>
+</RelativeLayout>

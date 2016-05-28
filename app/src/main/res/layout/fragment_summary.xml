@@ -68,7 +68,7 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/title_text_size"
                         android:textColor="@color/white"
-                        android:text="P"/>
+                        android:text="@string/trip_type_letter_private"/>
                 </FrameLayout>
 
                 <TextView
@@ -106,7 +106,7 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/title_text_size"
                         android:textColor="@color/white"
-                        android:text="W"/>
+                        android:text="@string/trip_type_letter_work"/>
                 </FrameLayout>
 
                 <TextView

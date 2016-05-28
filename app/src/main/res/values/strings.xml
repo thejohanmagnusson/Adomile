@@ -33,5 +33,7 @@
 
     <!-- Log View -->
     <string name="empty_log_list">You have no registered trips yet</string>
+    <string name="appwidget_text">Puss puss :)</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>
