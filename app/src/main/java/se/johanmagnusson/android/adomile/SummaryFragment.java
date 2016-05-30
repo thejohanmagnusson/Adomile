@@ -93,10 +93,12 @@ public class SummaryFragment extends Fragment{
         mChartData.setCenterText1FontSize(20);
         mChartData.setCenterText1(getContext().getResources().getString(R.string.mileage));
 
-        mChartData.setCenterText2(String.format(getContext().getResources().getString(R.string.in_out_mileage), inbound, outbound));
+        String mileage = String.format(getContext().getResources().getString(R.string.in_out_mileage), inbound, outbound);
+        mChartData.setCenterText2(mileage);
         mChartData.setCenterText2FontSize(20);
 
         mChart.setPieChartData(mChartData);
+        mChart.setContentDescription(mileage);
     }
 }
 
