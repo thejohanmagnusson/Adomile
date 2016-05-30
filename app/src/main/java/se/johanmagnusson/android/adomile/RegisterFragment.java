@@ -293,11 +293,10 @@ public class RegisterFragment extends Fragment {
         if (uri != null) {
             mLastTripId = ContentUris.parseId(uri);
             updateTripCard();
-        }
 
-        // Callback to activity
-        //todo: probably removing this callback
-        ((OnRegisterTripListener) getActivity()).onTripRegistered();
+            // Callback to activity
+            ((OnRegisterTripListener) getActivity()).onTripRegistered();
+        }
     }
 
     private void updateTripCard() {

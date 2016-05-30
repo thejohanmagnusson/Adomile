@@ -32,6 +32,7 @@
         <receiver android:name=".widget.AppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="se.johanmagnusson.android.action.TRIP_CHANGE" />
             </intent-filter>
 
             <meta-data

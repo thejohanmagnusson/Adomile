@@ -1,29 +1,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/appwidget_bg"
-    tools:layout_width="150dp"
-    tools:layout_height="80dp">
+    android:layout_height="80dp"
+    android:background="@drawable/appwidget_bg">
 
     <LinearLayout
         android:id="@+id/private_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="@dimen/widget_content_margin_top_bottom"
+        android:layout_marginLeft="@dimen/widget_content_margin"
+        android:layout_marginStart="@dimen/widget_content_margin"
+        android:layout_marginRight="@dimen/widget_content_margin"
+        android:layout_marginEnd="@dimen/widget_content_margin"
         android:orientation="horizontal">
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="2dp">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/circle_private" />
 
             <TextView
@@ -45,29 +45,28 @@
             android:alpha="@dimen/text_contrast_87"
             android:textSize="@dimen/body_text_size"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:text="12345 km"/>
+            android:singleLine="true" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/work_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="@dimen/widget_content_margin"
+        android:layout_marginStart="@dimen/widget_content_margin"
+        android:layout_marginRight="@dimen/widget_content_margin"
+        android:layout_marginEnd="@dimen/widget_content_margin"
         android:orientation="horizontal"
         android:layout_below="@id/private_container">
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="2dp">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/circle_work" />
 
             <TextView
@@ -89,25 +88,23 @@
             android:alpha="@dimen/text_contrast_87"
             android:textSize="@dimen/body_text_size"
             android:singleLine="true"
-            android:ellipsize="end"
-            android:text="13749 km"/>
+            android:ellipsize="end" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/mileage_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="@dimen/widget_content_margin"
+        android:layout_marginStart="@dimen/widget_content_margin"
+        android:layout_marginRight="@dimen/widget_content_margin"
+        android:layout_marginEnd="@dimen/widget_content_margin"
         android:orientation="horizontal"
         android:layout_below="@id/work_container">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@mipmap/ic_ray_start_end_black_24dp"
             android:alpha="@dimen/icon_active_opacity"/>
 
@@ -122,7 +119,6 @@
             android:alpha="@dimen/text_contrast_87"
             android:textSize="@dimen/body_text_size"
             android:singleLine="true"
-            android:ellipsize="end"
-            android:text="12340 - 15640"/>
+            android:ellipsize="end" />
     </LinearLayout>
 </RelativeLayout>

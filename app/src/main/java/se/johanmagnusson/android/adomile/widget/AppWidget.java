@@ -15,24 +15,42 @@ import se.johanmagnusson.android.adomile.R;
  */
 public class AppWidget extends AppWidgetProvider {
 
+    private static final String TAG = AppWidget.class.getSimpleName();
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-//        views.setTextViewText(R.id.trip_type, "W");
-        //views.setOnClickPendingIntent(R.id.button, pendingIntent);
+        views.setTextViewText(R.id.total_mileage_private, "560 km");
+        views.setTextViewText(R.id.total_mileage_work, "240 km");
+        views.setTextViewText(R.id.mileage, "300 - 1100");
+        views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+
+        //todo: FIXAS
+//        if(intent.getAction().equals(MainActivity.ACTION_TRIP_CHANGE)) {
+//            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+//            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, getClass()));
+//
+//            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_container);
+//        }
+    }
+
+    @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
+
+        //todo: hämta data här
+
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }

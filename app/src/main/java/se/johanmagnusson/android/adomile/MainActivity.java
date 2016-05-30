@@ -3,6 +3,9 @@ package se.johanmagnusson.android.adomile;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,7 +21,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import se.johanmagnusson.android.adomile.database.TripColumns;
+import se.johanmagnusson.android.adomile.database.TripProvider;
 
 public class MainActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener,
@@ -31,6 +38,13 @@ public class MainActivity extends AppCompatActivity
     public static final int REGISTER_PAGE = 1;
     public static final int LOG_PAGE = 2;
     public static final String KEY_SELECTED_TAB = "selected_tab";
+
+    private static final String KEY_MILEAGE_SUMMARY = "mileage_summary";
+    private static final String KEY_MONTH = "month";
+    private static final String KEY_INBOUND = "inbound";
+    private static final String KEY_OUTBOUND = "outbound";
+    private static final String KEY_PRIVATE_MILEAGE = "private_mileage";
+    private static final String KEY_WORK_MILEAGE = "work_mileage";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -97,6 +111,12 @@ public class MainActivity extends AppCompatActivity
             mTabLayout.getTabAt(savedInstanceState.getInt(KEY_SELECTED_TAB)).select();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        updateTripSummary();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -143,7 +163,16 @@ public class MainActivity extends AppCompatActivity
     // RegisterFragment.OnRegisterTripListener
     @Override
     public void onTripRegistered() {
-        // Set flag so other fragments can update if needed
+        updateTripSummary();
+    }
+
+    private void updateTripSummary() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+
+        // Pre-calculate values for summary view and widget.
+        new TripCalculationTask().execute(year, month);
     }
 
     // LogFragment.OnTripSelectedListener
@@ -177,7 +206,7 @@ public class MainActivity extends AppCompatActivity
             if(getCurrentFragment() != object)
                 mCurrentFragment = (Fragment) object;
 
-            // USe the position to check if we have handled this page already, this method getts called multiple times!
+            // USe the position to check if we have handled this page already, this method gets called multiple times!
             if(position == mCurrentPosition)
                 return;
 
@@ -188,7 +217,7 @@ public class MainActivity extends AppCompatActivity
                 SummaryFragment fragment = (SummaryFragment) object;
 
                 if(fragment.isResumed()){
-                    fragment.upateTripData();
+                    fragment.updateTripData();
                 }
             }
         }
@@ -223,6 +252,101 @@ public class MainActivity extends AppCompatActivity
                     return getString(R.string.tab_log);
             }
             return null;
+        }
+    }
+
+    public class TripCalculationTask extends AsyncTask<Integer, Void, Bundle> {
+
+        @Override
+        protected Bundle doInBackground(Integer... parameter) {
+            if(parameter.length != 2)
+                return null;
+
+            int year = parameter[0];
+            int month = parameter[1];
+
+            // Get first day of the month
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, 1);
+            String fromDate = Utility.getDateFormat().format(calendar.getTime());
+
+            // Get last day of the month
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String toDate = Utility.getDateFormat().format(calendar.getTime());
+
+            /* Schematic TripProvider can´t handle this kind of selection.
+            It always appends =? to the whereColumn making it impossible to use i.e. >= instead.
+            Using the default content URI and adding the selection here instead.
+            */
+            Cursor cursor = getApplicationContext().getContentResolver().query(
+                    TripProvider.Trips.CONTENT_URI,
+                    null,
+                    TripColumns.Date + " >= ? AND " + TripColumns.Date + " <= ?",
+                    new String [] {fromDate, toDate},
+                    TripColumns.Mileage + " ASC");
+
+            cursor.moveToFirst();
+
+            int inbound = 0;
+            int outbound = 0;
+            int privateMileage = 0;
+            int workMileage = 0;
+            int mileage = 0;
+            int previousMileage = 0;
+
+            for(int i = 0; i < cursor.getCount(); i++) {
+                // Get mileage and set as inbound if first trip
+                mileage = cursor.getInt(cursor.getColumnIndex(TripColumns.Mileage));
+                if(i == 0){inbound = mileage;}
+
+                // Add as work or private mileage. Only first trip can be 0.
+                if(mileage > 0) {
+                    if (cursor.getInt(cursor.getColumnIndex(TripColumns.TripType)) == Utility.WORK)
+                        workMileage += mileage - previousMileage;
+                    else
+                        privateMileage += mileage - previousMileage;
+                }
+
+                previousMileage = mileage;
+                cursor.moveToNext();
+            }
+
+            // Set last mileage as outbound.
+            outbound = mileage;
+            cursor.close();
+
+            // Don't want to save to shared preferences from task
+            Bundle result = new Bundle();
+            result.putString(KEY_MONTH, new SimpleDateFormat("MMMM").format(calendar.getTime()));
+            result.putInt(KEY_INBOUND, inbound);
+            result.putInt(KEY_OUTBOUND, outbound);
+            result.putInt(KEY_PRIVATE_MILEAGE, privateMileage);
+            result.putInt(KEY_WORK_MILEAGE, workMileage);
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Bundle bundle) {
+            // Save to shared preferences for easy sharing
+            if(bundle != null) {
+
+                String period = bundle.getString(KEY_MONTH);
+                period = period.substring(0,1).toUpperCase() + period.substring(1).toLowerCase();
+                int inbound = bundle.getInt(KEY_INBOUND);
+                int outbound = bundle.getInt(KEY_OUTBOUND);
+                int privateMileage = bundle.getInt(KEY_PRIVATE_MILEAGE);
+                int workMileage = bundle.getInt(KEY_WORK_MILEAGE);
+
+                SharedPreferences prefs =  getSharedPreferences(getString(R.string.pref_summary_file_key), MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(getString(R.string.pref_month_key), period);
+                editor.putInt(getString(R.string.pref_inbound_key), inbound);
+                editor.putInt(getString(R.string.pref_outbound_key), outbound);
+                editor.putInt(getString(R.string.pref_total_private_key), privateMileage);
+                editor.putInt(getString(R.string.pref_total_work_key), workMileage);
+                editor.commit();
+            }
         }
     }
 }

@@ -1,4 +1,12 @@
 <resources>
+    <!-- Shared preferences -->
+    <string name="pref_summary_file_key" translatable="false">se.johanmagnusson.android.adomile.SUMMARY_FILE_KEY</string>
+    <string name="pref_month_key" translatable="false">month_key</string>
+    <string name="pref_inbound_key" translatable="false">inbound_key</string>
+    <string name="pref_outbound_key" translatable="false">outbound_key</string>
+    <string name="pref_total_private_key" translatable="false">total_private_key</string>
+    <string name="pref_total_work_key" translatable="false">total_work_key</string>
+
     <!-- Toolbar -->
     <string name="app_name" translatable="false">Adomile</string>
     <string name="trip_details">Details</string>

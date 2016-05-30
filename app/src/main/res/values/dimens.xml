@@ -42,10 +42,9 @@
     <dimen name="subheading_text_size">16sp</dimen>
     <dimen name="body_text_size">16sp</dimen>
 
-    <!--
-Refer to App Widget Documentation for margin information
-http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
-    -->
+    <!-- Widget -->
+    <dimen name="widget_content_margin_top_bottom">4dp</dimen>
+    <dimen name="widget_content_margin">8dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
 
 </resources>
