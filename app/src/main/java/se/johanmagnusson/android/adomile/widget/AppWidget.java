@@ -7,7 +7,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import se.johanmagnusson.android.adomile.MainActivity;
@@ -28,8 +27,11 @@ public class AppWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
         views.setTextViewText(R.id.total_mileage_private, totalPrivate);
+        views.setContentDescription(R.id.total_mileage_private, totalPrivate);
         views.setTextViewText(R.id.total_mileage_work, totalWork);
+        views.setContentDescription(R.id.total_mileage_private, totalWork);
         views.setTextViewText(R.id.mileage, mileage);
+        views.setContentDescription(R.id.mileage, mileage);
         views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
 
         // Instruct the widget manager to update the widget
