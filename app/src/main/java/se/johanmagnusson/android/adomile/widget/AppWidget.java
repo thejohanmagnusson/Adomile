@@ -3,8 +3,11 @@ package se.johanmagnusson.android.adomile.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import se.johanmagnusson.android.adomile.MainActivity;
@@ -17,15 +20,16 @@ public class AppWidget extends AppWidgetProvider {
 
     private static final String TAG = AppWidget.class.getSimpleName();
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId,
+                                String mileage, String totalPrivate, String totalWork) {
 
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-        views.setTextViewText(R.id.total_mileage_private, "560 km");
-        views.setTextViewText(R.id.total_mileage_work, "240 km");
-        views.setTextViewText(R.id.mileage, "300 - 1100");
+        views.setTextViewText(R.id.total_mileage_private, totalPrivate);
+        views.setTextViewText(R.id.total_mileage_work, totalWork);
+        views.setTextViewText(R.id.mileage, mileage);
         views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
 
         // Instruct the widget manager to update the widget
@@ -36,23 +40,29 @@ public class AppWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
 
-        //todo: FIXAS
-//        if(intent.getAction().equals(MainActivity.ACTION_TRIP_CHANGE)) {
-//            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-//            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, getClass()));
-//
-//            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_container);
-//        }
+        if(intent.getAction().equals(MainActivity.ACTION_WIDGET_UPDATE)) {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, getClass()));
+
+            onUpdate(context, appWidgetManager, appWidgetIds);
+        }
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        SharedPreferences prefs = context.getSharedPreferences(context.getString(R.string.pref_summary_file_key), Context.MODE_PRIVATE);
+        int inbound = prefs.getInt(context.getString(R.string.pref_inbound_key), 0);
+        int outbound = prefs.getInt(context.getString(R.string.pref_outbound_key), 0);
+        int privateMileage = prefs.getInt(context.getString(R.string.pref_total_private_key), 0);
+        int workMileage = prefs.getInt(context.getString(R.string.pref_total_work_key), 0);
+
+        String mileage =  String.format(context.getResources().getString(R.string.in_out_mileage), inbound, outbound);
+        String totalPrivate = String.format(context.getResources().getString(R.string.trip_mileage_summary), privateMileage);
+        String totalWork = String.format(context.getResources().getString(R.string.trip_mileage_summary), workMileage);
+
         // There may be multiple widgets active, so update all of them
-
-        //todo: hämta data här
-
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            updateAppWidget(context, appWidgetManager, appWidgetId, mileage, totalPrivate, totalWork);
         }
     }
 

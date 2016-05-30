@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity
     public static final int LOG_PAGE = 2;
     public static final String KEY_SELECTED_TAB = "selected_tab";
 
-    private static final String KEY_MILEAGE_SUMMARY = "mileage_summary";
+    public static final String ACTION_WIDGET_UPDATE= "se.johanmagnusson.android.adomile.action.WIDGET_UPDATE";
+
     private static final String KEY_MONTH = "month";
     private static final String KEY_INBOUND = "inbound";
     private static final String KEY_OUTBOUND = "outbound";
@@ -346,6 +347,10 @@ public class MainActivity extends AppCompatActivity
                 editor.putInt(getString(R.string.pref_total_private_key), privateMileage);
                 editor.putInt(getString(R.string.pref_total_work_key), workMileage);
                 editor.commit();
+
+                Intent intent = new Intent(ACTION_WIDGET_UPDATE);
+                sendBroadcast(intent);
+
             }
         }
     }
