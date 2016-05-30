@@ -316,7 +316,6 @@ public class MainActivity extends AppCompatActivity
             outbound = mileage;
             cursor.close();
 
-            // Don't want to save to shared preferences from task
             Bundle result = new Bundle();
             result.putString(KEY_MONTH, new SimpleDateFormat("MMMM").format(calendar.getTime()));
             result.putInt(KEY_INBOUND, inbound);

@@ -97,13 +97,12 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
     public void onBindViewHolder(TripListAdapter.ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        //todo: move to utility, same code is used in register fragment to show last trip
-
         boolean isWork = mCursor.getInt(mCursor.getColumnIndex(TripColumns.TripType)) == 1 ? true : false;
 
         holder.iconShape.setBackground(isWork ? mWorkIcon : mPrivateIcon);
         holder.iconText.setText(isWork ? mWorkLetter : mPrivateLetter);
-        //todo: content description icon
+        int stringId = isWork ? R.string.trip_type_letter_work : R.string.trip_type_letter_private;
+        holder.iconText.setContentDescription(mContext.getResources().getString(stringId));
         
         String destination = mCursor.getString(mCursor.getColumnIndex(TripColumns.Destination));
         holder.destination.setText(destination);

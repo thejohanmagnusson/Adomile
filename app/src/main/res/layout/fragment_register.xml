@@ -183,7 +183,7 @@
             android:layout_marginBottom="@dimen/card_edge_margin"
             android:layout_marginTop="24dp"
             android:layout_below="@id/button_container"
-            card_view:cardCornerRadius="2dp">
+            card_view:cardCornerRadius="@dimen/card_corner_radius">
 
             <LinearLayout
                 android:layout_width="match_parent"
