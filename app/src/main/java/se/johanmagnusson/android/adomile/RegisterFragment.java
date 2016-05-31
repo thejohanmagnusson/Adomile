@@ -292,11 +292,18 @@ public class RegisterFragment extends Fragment {
 
         if (uri != null) {
             mLastTripId = ContentUris.parseId(uri);
+            clearInput();
             updateTripCard();
 
             // Callback to activity
             ((OnRegisterTripListener) getActivity()).onTripRegistered();
         }
+    }
+
+    private void clearInput() {
+        mDestination.setText("");
+        mMileage.setText("");
+        mNote.setText("");
     }
 
     private void updateTripCard() {

@@ -3,33 +3,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".TripDetailActivity">
 
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/title"
+        <FrameLayout
+            android:id="@+id/type_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/card_title_padding_top"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
-            android:layout_marginStart="@dimen/activity_vertical_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:layout_marginBottom="@dimen/title_margin_bottom"
-            android:textSize="@dimen/headline_text_size"
-            android:text="@string/register_trip"
-            android:contentDescription="@string/register_trip"/>
+            android:layout_gravity="center_vertical"
+            android:paddingTop="@dimen/content_space"
+            android:paddingBottom="@dimen/content_space"
+            android:layout_marginLeft="@dimen/icon_horizontal_margin">
+
+            <View
+                android:id="@+id/icon_shape"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:background="@drawable/circle_private" />
+
+            <TextView
+                android:id="@+id/icon_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/white"
+                tools:text="P"/>
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/date_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/content_space"
             android:paddingBottom="@dimen/content_space"
-            android:layout_below="@id/title">
+            android:layout_below="@id/type_container">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -56,6 +69,8 @@
             android:id="@+id/destination_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/content_space"
+            android:paddingBottom="@dimen/content_space"
             android:layout_below="@id/date_container">
 
             <ImageView
@@ -68,24 +83,25 @@
                 android:alpha="@dimen/icon_active_opacity"
                 android:contentDescription="@string/destination"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/destination"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/icon_text_margin"
                 android:layout_marginStart="@dimen/icon_text_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:layout_marginEnd="@dimen/activity_vertical_margin"
-                android:inputType="textCapSentences"
-                android:imeOptions="actionNext"
-                android:hint="@string/destination"
-                />
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/text_view_text_size"
+                tools:text="Destination" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/mileage_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/content_space"
+            android:paddingBottom="@dimen/content_space"
             android:layout_below="@id/destination_container">
 
             <ImageView
@@ -98,24 +114,25 @@
                 android:alpha="@dimen/icon_active_opacity"
                 android:contentDescription="@string/mileage"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/mileage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/icon_text_margin"
                 android:layout_marginStart="@dimen/icon_text_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:layout_marginEnd="@dimen/activity_vertical_margin"
-                android:inputType="number"
-                android:ems="6"
-                android:imeOptions="actionNext"
-                android:hint="@string/mileage" />
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/text_view_text_size"
+                tools:text="Mileage" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/note_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/content_space"
+            android:paddingBottom="@dimen/content_space"
             android:layout_below="@id/mileage_container">
 
             <ImageView
@@ -128,70 +145,17 @@
                 android:alpha="@dimen/icon_active_opacity"
                 android:contentDescription="@string/note"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/note"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/icon_text_margin"
                 android:layout_marginStart="@dimen/icon_text_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:layout_marginEnd="@dimen/activity_vertical_margin"
-                android:inputType="textCapSentences"
-                android:hint="@string/note"
-                android:ems="12"
-                android:lines="1"
-                android:maxLines="1"
-                android:maxLength="50"
-                android:imeOptions="actionDone" />
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/text_view_text_size"
+                tools:text="Note" />
         </FrameLayout>
-
-        <LinearLayout
-            android:id="@+id/button_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/note_container">
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/private_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/action_margin_top"
-                android:text="@string/trip_type_private"
-                android:contentDescription="@string/trip_type_private" />
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/work_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/action_margin_top"
-                android:text="@string/trip_type_work"
-                android:contentDescription="@string/trip_type_work" />
-        </LinearLayout>
-
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/trip_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_edge_margin"
-            android:layout_marginStart="@dimen/card_edge_margin"
-            android:layout_marginRight="@dimen/card_edge_margin"
-            android:layout_marginEnd="@dimen/card_edge_margin"
-            android:layout_marginBottom="@dimen/card_edge_margin"
-            android:layout_marginTop="24dp"
-            android:layout_below="@id/button_container"
-            card_view:cardCornerRadius="@dimen/card_corner_radius">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/trip_list_item"/>
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
     </RelativeLayout>
 </ScrollView>
