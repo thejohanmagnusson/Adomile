@@ -5,9 +5,10 @@
     <item name="text_contrast_87" format="float" type="dimen">0.87</item>
 
     <!-- List item values -->
-    <dimen name="icon_size">40dp</dimen>
-    <dimen name="icon_horizontal_margin">16dp</dimen>
-    <dimen name="icon_text_margin">72dp</dimen>
+    <dimen name="list_item_height">72dp</dimen>
+    <dimen name="list_item_icon_size">40dp</dimen>
+    <dimen name="list_item_horizontal_margin">16dp</dimen>
+    <dimen name="list_item_icon_to_text_margin">72dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

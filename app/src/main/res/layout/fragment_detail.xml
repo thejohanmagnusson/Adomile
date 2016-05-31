@@ -18,13 +18,13 @@
             android:layout_gravity="center_vertical"
             android:paddingTop="@dimen/content_space"
             android:paddingBottom="@dimen/content_space"
-            android:layout_marginLeft="@dimen/icon_horizontal_margin"
-            android:layout_marginStart="@dimen/icon_horizontal_margin">
+            android:layout_marginLeft="@dimen/list_item_horizontal_margin"
+            android:layout_marginStart="@dimen/list_item_horizontal_margin">
 
             <View
                 android:id="@+id/icon_shape"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/list_item_icon_size"
+                android:layout_height="@dimen/list_item_icon_size"
                 android:background="@drawable/circle_private" />
 
             <TextView
@@ -59,8 +59,8 @@
                 android:id="@+id/register_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/icon_text_margin"
-                android:layout_marginStart="@dimen/icon_text_margin"
+                android:layout_marginLeft="@dimen/list_item_icon_to_text_margin"
+                android:layout_marginStart="@dimen/list_item_icon_to_text_margin"
                 android:layout_gravity="center_vertical"
                 android:textSize="@dimen/text_view_text_size"
                 tools:text="3 May, 2016" />
@@ -77,8 +77,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/icon_horizontal_margin"
-                android:layout_marginStart="@dimen/icon_horizontal_margin"
+                android:layout_marginLeft="@dimen/list_item_horizontal_margin"
+                android:layout_marginStart="@dimen/list_item_horizontal_margin"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/ic_map_marker_black_24dp"
                 android:alpha="@dimen/icon_active_opacity"
@@ -88,8 +88,8 @@
                 android:id="@+id/destination"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/icon_text_margin"
-                android:layout_marginStart="@dimen/icon_text_margin"
+                android:layout_marginLeft="@dimen/list_item_icon_to_text_margin"
+                android:layout_marginStart="@dimen/list_item_icon_to_text_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:layout_marginEnd="@dimen/activity_vertical_margin"
                 android:layout_gravity="center_vertical"
@@ -108,8 +108,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/icon_horizontal_margin"
-                android:layout_marginStart="@dimen/icon_horizontal_margin"
+                android:layout_marginLeft="@dimen/list_item_horizontal_margin"
+                android:layout_marginStart="@dimen/list_item_horizontal_margin"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/ic_gauge_black_24dp"
                 android:alpha="@dimen/icon_active_opacity"
@@ -119,8 +119,8 @@
                 android:id="@+id/mileage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/icon_text_margin"
-                android:layout_marginStart="@dimen/icon_text_margin"
+                android:layout_marginLeft="@dimen/list_item_icon_to_text_margin"
+                android:layout_marginStart="@dimen/list_item_icon_to_text_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:layout_marginEnd="@dimen/activity_vertical_margin"
                 android:layout_gravity="center_vertical"
@@ -139,8 +139,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/icon_horizontal_margin"
-                android:layout_marginStart="@dimen/icon_horizontal_margin"
+                android:layout_marginLeft="@dimen/list_item_horizontal_margin"
+                android:layout_marginStart="@dimen/list_item_horizontal_margin"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/ic_insert_comment_black_24dp"
                 android:alpha="@dimen/icon_active_opacity"
@@ -150,8 +150,8 @@
                 android:id="@+id/note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/icon_text_margin"
-                android:layout_marginStart="@dimen/icon_text_margin"
+                android:layout_marginLeft="@dimen/list_item_icon_to_text_margin"
+                android:layout_marginStart="@dimen/list_item_icon_to_text_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:layout_marginEnd="@dimen/activity_vertical_margin"
                 android:layout_gravity="center_vertical"

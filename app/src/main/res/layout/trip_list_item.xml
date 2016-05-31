@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="@dimen/list_item_height">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/icon_horizontal_margin"
-        android:layout_marginStart="@dimen/icon_horizontal_margin">
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/list_item_horizontal_margin"
+        android:layout_marginStart="@dimen/list_item_horizontal_margin">
 
         <View
             android:id="@+id/icon_shape"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            android:layout_width="@dimen/list_item_icon_size"
+            android:layout_height="@dimen/list_item_icon_size"
             android:background="@drawable/circle_private" />
 
         <TextView
@@ -24,57 +24,52 @@
             android:layout_gravity="center"
             android:textSize="@dimen/title_text_size"
             android:textColor="@color/white"
-            tools:text="P"/>
+            tools:text="@string/trip_type_letter_private"/>
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/icon_text_margin"
-        android:layout_marginStart="@dimen/icon_text_margin"
-        android:layout_marginRight="@dimen/icon_horizontal_margin"
-        android:layout_marginEnd="@dimen/icon_horizontal_margin"
-        android:baselineAligned="false">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/list_item_icon_to_text_margin"
+        android:layout_marginStart="@dimen/list_item_icon_to_text_margin"
+        android:layout_marginRight="@dimen/list_item_icon_to_text_margin"
+        android:layout_marginEnd="@dimen/list_item_icon_to_text_margin"
+        android:layout_centerVertical="true">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/trip_destination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical">
+            tools:text="Destination"/>
 
-            <TextView
-                android:id="@+id/trip_destination"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Destination"/>
-
-            <TextView
-                android:id="@+id/trip_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Today"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/trip_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/trip_km"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="34km"/>
-
-            <TextView
-                android:id="@+id/trip_mileage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="5074"/>
-        </LinearLayout>
+            tools:text="Today"/>
     </LinearLayout>
-</FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/list_item_horizontal_margin"
+        android:layout_marginEnd="@dimen/list_item_horizontal_margin">
+
+        <TextView
+            android:id="@+id/trip_km"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="34km"/>
+
+        <TextView
+            android:id="@+id/trip_mileage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="5074"/>
+    </LinearLayout>
+</RelativeLayout>
