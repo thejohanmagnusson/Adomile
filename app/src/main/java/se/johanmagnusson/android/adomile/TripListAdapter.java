@@ -42,7 +42,7 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
 
-            iconShape = (View) itemView.findViewById(R.id.icon_shape);
+            iconShape = itemView.findViewById(R.id.icon_shape);
             iconText = (TextView) itemView.findViewById(R.id.icon_text);
             destination = (TextView) itemView.findViewById(R.id.trip_destination);
             date = (TextView) itemView.findViewById(R.id.trip_date);
@@ -70,9 +70,8 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         mOnClickListener = onClickListener;
         mEmptyView = emptyView;
 
-        // FIXME: 2016-05-23 handel dep, api
-        mPrivateIcon = mContext.getResources().getDrawable(R.drawable.circle_private);
-        mWorkIcon = mContext.getResources().getDrawable(R.drawable.circle_work);
+        mPrivateIcon = Utility.getDrawable(mContext, R.drawable.circle_private);
+        mWorkIcon = Utility.getDrawable(mContext, R.drawable.circle_work);
 
         mPrivateLetter = mContext.getResources().getString(R.string.trip_type_letter_private);
         mWorkLetter = mContext.getResources().getString(R.string.trip_type_letter_work);

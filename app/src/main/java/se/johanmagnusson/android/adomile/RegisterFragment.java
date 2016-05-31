@@ -122,7 +122,6 @@ public class RegisterFragment extends Fragment {
 
         mNote = (EditText) root.findViewById(R.id.note);
 
-        //todo: only enable buttons if valid input
         mPrivate = (Button) root.findViewById(R.id.private_button);
         mPrivate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +140,7 @@ public class RegisterFragment extends Fragment {
 
         mTripCard = (CardView) root.findViewById(R.id.trip_card);
         mTripCard.setVisibility(View.INVISIBLE);
-        mTripCardIconShape = (View) root.findViewById(R.id.icon_shape);
+        mTripCardIconShape = root.findViewById(R.id.icon_shape);
         mTripCardIconText = (TextView) root.findViewById(R.id.icon_text);
         mTripCardDestination = (TextView) root.findViewById(R.id.trip_destination);
         mTripCardDate = (TextView) root.findViewById(R.id.trip_date);
@@ -251,10 +250,7 @@ public class RegisterFragment extends Fragment {
 
     private boolean isValidDestination(String destination) {
 
-        if(destination.trim().length() > 0)
-            return true;
-
-        return false;
+        return destination.trim().length() > 0;
     }
 
     private boolean isValidMileage(int lastMileage, String mileage) {
@@ -314,13 +310,12 @@ public class RegisterFragment extends Fragment {
             Drawable icon;
             String letter;
 
-            // FIXME: 2016-05-23 handel dep, api
             if(isWork) {
-                icon = getContext().getResources().getDrawable(R.drawable.circle_work);
+                icon = Utility.getDrawable(getContext(), R.drawable.circle_work);
                 letter =getContext().getResources().getString(R.string.trip_type_letter_work);
             }
             else {
-                icon = getContext().getResources().getDrawable(R.drawable.circle_private);
+                icon = Utility.getDrawable(getContext(), R.drawable.circle_private);
                 letter = getContext().getResources().getString(R.string.trip_type_letter_private);
             }
             mTripCardIconShape.setBackground(icon);
@@ -351,8 +346,9 @@ public class RegisterFragment extends Fragment {
 
                     String formattedStartMileage = String.format(getContext().getResources().getString(R.string.trip_mileage_summary), mileage - startMileage);
                     mTripCardKm.setText(formattedStartMileage);
+
+                    previousTripCursor.close();
                 }
-                previousTripCursor.close();
             }
             tripCursor.close();
 
