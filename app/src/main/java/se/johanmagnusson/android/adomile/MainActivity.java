@@ -22,6 +22,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -64,10 +67,15 @@ public class MainActivity extends AppCompatActivity
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
 
+    // Analytics
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,8 +100,9 @@ public class MainActivity extends AppCompatActivity
                     try {
                         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     }
-                    catch (NullPointerException e){
-                        Log.d(TAG, "Error trying to get current focus: " + e.getMessage());
+                    catch (NullPointerException ex){
+                        FirebaseCrash.logcat(Log.ERROR, TAG, getString(R.string.crash_type_null));
+                        FirebaseCrash.report(ex);
                     }
                 }
             }
@@ -164,8 +173,10 @@ public class MainActivity extends AppCompatActivity
 
     // RegisterFragment.OnRegisterTripListener
     @Override
-    public void onTripRegistered() {
+    public void onTripRegistered(boolean isWork) {
         Toast.makeText(this, getString(R.string.trip_registered_message), Toast.LENGTH_SHORT).show();
+
+        mFirebaseAnalytics.setUserProperty(getString(R.string.analytic_trip_type), getResources().getString(isWork ? R.string.trip_type_work : R.string.trip_type_private));
 
         updateTripSummary();
     }
@@ -289,11 +300,6 @@ public class MainActivity extends AppCompatActivity
                     new String [] {fromDate, toDate},
                     TripColumns.Mileage + " ASC");
 
-            if(cursor == null)
-                return null;
-
-            cursor.moveToFirst();
-
             int inbound = 0;
             int outbound = 0;
             int privateMileage = 0;
@@ -301,21 +307,29 @@ public class MainActivity extends AppCompatActivity
             int mileage = 0;
             int previousMileage = 0;
 
-            for(int i = 0; i < cursor.getCount(); i++) {
-                // Get mileage and set as inbound if first trip
-                mileage = cursor.getInt(cursor.getColumnIndex(TripColumns.Mileage));
-                if(i == 0){inbound = mileage;}
+            try {
+                cursor.moveToFirst();
 
-                // Add as work or private mileage. Only first trip can be 0.
-                if(mileage > 0) {
-                    if (cursor.getInt(cursor.getColumnIndex(TripColumns.TripType)) == Utility.WORK)
-                        workMileage += mileage - previousMileage;
-                    else
-                        privateMileage += mileage - previousMileage;
+                for(int i = 0; i < cursor.getCount(); i++) {
+                    // Get mileage and set as inbound if first trip
+                    mileage = cursor.getInt(cursor.getColumnIndex(TripColumns.Mileage));
+                    if(i == 0){inbound = mileage;}
+
+                    // Add as work or private mileage. Only first trip can be 0.
+                    if(mileage > 0) {
+                        if (cursor.getInt(cursor.getColumnIndex(TripColumns.TripType)) == Utility.WORK)
+                            workMileage += mileage - previousMileage;
+                        else
+                            privateMileage += mileage - previousMileage;
+                    }
+
+                    previousMileage = mileage;
+                    cursor.moveToNext();
                 }
-
-                previousMileage = mileage;
-                cursor.moveToNext();
+            }
+            catch (NullPointerException ex) {
+                FirebaseCrash.logcat(Log.ERROR, TAG, getString(R.string.crash_type_null));
+                FirebaseCrash.report(ex);
             }
 
             // Set last mileage as outbound.
@@ -338,7 +352,18 @@ public class MainActivity extends AppCompatActivity
             if(bundle != null) {
 
                 String period = bundle.getString(KEY_MONTH);
-                period = period.substring(0,1).toUpperCase() + period.substring(1).toLowerCase();
+                try {
+                    period = period.substring(0,1).toUpperCase() + period.substring(1).toLowerCase();
+                }
+                catch (IndexOutOfBoundsException ex) {
+                    FirebaseCrash.logcat(Log.ERROR, TAG, getString(R.string.crash_type_index));
+                    FirebaseCrash.report(ex);
+                }
+                catch (NullPointerException ex) {
+                    FirebaseCrash.logcat(Log.ERROR, TAG, getString(R.string.crash_type_null));
+                    FirebaseCrash.report(ex);
+                }
+
                 int inbound = bundle.getInt(KEY_INBOUND);
                 int outbound = bundle.getInt(KEY_OUTBOUND);
                 int privateMileage = bundle.getInt(KEY_PRIVATE_MILEAGE);

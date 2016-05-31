@@ -40,4 +40,9 @@ dependencies {
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     apt 'net.simonvt.schematic:schematic-compiler:0.6.7'
     compile 'net.simonvt.schematic:schematic:0.6.7'
+    compile 'com.google.firebase:firebase-core:9.0.1'
+    compile 'com.google.firebase:firebase-crash:9.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
+

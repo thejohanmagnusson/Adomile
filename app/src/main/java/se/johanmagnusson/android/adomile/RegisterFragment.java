@@ -66,7 +66,7 @@ public class RegisterFragment extends Fragment {
 
     // Register trip callback
     public interface OnRegisterTripListener {
-        void onTripRegistered();
+        void onTripRegistered(boolean isWork);
     }
 
     @Nullable
@@ -290,7 +290,7 @@ public class RegisterFragment extends Fragment {
             updateTripCard();
 
             // Callback to activity
-            ((OnRegisterTripListener) getActivity()).onTripRegistered();
+            ((OnRegisterTripListener) getActivity()).onTripRegistered(isWork);
         }
     }
 

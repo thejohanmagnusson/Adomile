@@ -1,4 +1,11 @@
 <resources>
+    <!-- Analytics -->
+    <string name="analytic_trip_type" translatable="false">trip_type</string>
+
+    <!-- Crash -->
+    <string name="crash_type_index" translatable="false">Index out of bounds caught</string>
+    <string name="crash_type_null" translatable="false">NPE caught</string>
+
     <!-- Shared preferences -->
     <string name="pref_summary_file_key" translatable="false">se.johanmagnusson.android.adomile.SUMMARY_FILE_KEY</string>
     <string name="pref_month_key" translatable="false">month_key</string>
