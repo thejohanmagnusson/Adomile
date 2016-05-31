@@ -24,9 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:textColor="@color/abc_primary_text_material_light"
             android:textSize="24sp"
-            android:text="Previous trip"/>
+            android:text="@string/previous_trip"/>
 
         <include layout="@layout/trip_list_item"/>
 

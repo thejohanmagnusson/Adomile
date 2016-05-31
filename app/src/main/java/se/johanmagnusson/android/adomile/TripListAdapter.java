@@ -97,11 +97,11 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
     public void onBindViewHolder(TripListAdapter.ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        boolean isWork = mCursor.getInt(mCursor.getColumnIndex(TripColumns.TripType)) == 1 ? true : false;
+        boolean isWork = mCursor.getInt(mCursor.getColumnIndex(TripColumns.TripType)) == Utility.WORK;
 
         holder.iconShape.setBackground(isWork ? mWorkIcon : mPrivateIcon);
         holder.iconText.setText(isWork ? mWorkLetter : mPrivateLetter);
-        int stringId = isWork ? R.string.trip_type_letter_work : R.string.trip_type_letter_private;
+        int stringId = isWork ? R.string.trip_type_work : R.string.trip_type_private;
         holder.iconText.setContentDescription(mContext.getResources().getString(stringId));
         
         String destination = mCursor.getString(mCursor.getColumnIndex(TripColumns.Destination));

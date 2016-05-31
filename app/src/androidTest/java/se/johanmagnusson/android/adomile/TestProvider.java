@@ -62,10 +62,11 @@ public class TestProvider extends AndroidTestCase {
         );
 
         assertTrue("No trip entries, empty cursor returned. ", tripCursor.moveToFirst());
+        tripCursor.close();
 
         int countDeleted = context.getContentResolver().delete(Trips.CONTENT_URI, null, null);
 
-        assertTrue("No trips deleted.", countDeleted > 0 ? true : false);
+        assertTrue("No trips deleted.", countDeleted > 0);
 
     }
 }

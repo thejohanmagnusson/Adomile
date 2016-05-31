@@ -23,7 +23,6 @@ public class SummaryFragment extends Fragment{
     public static final String TAG = SummaryFragment.class.getName();
 
     private PieChartView mChart;
-    private PieChartData mChartData;
 
     private TextView mTotalPrivate;
     private TextView mTotalWork;
@@ -87,7 +86,7 @@ public class SummaryFragment extends Fragment{
         values.add(privateValue);
         values.add(workValue);
 
-        mChartData = new PieChartData(values);
+        PieChartData mChartData = new PieChartData(values);
         mChartData.setHasCenterCircle(true);
 
         mChartData.setCenterText1FontSize(20);

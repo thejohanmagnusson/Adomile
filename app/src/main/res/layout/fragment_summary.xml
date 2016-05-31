@@ -25,6 +25,8 @@
                 android:paddingTop="@dimen/card_title_large_padding_top"
                 android:paddingLeft="@dimen/card_content_padding"
                 android:paddingStart="@dimen/card_content_padding"
+                android:paddingRight="@dimen/card_content_padding"
+                android:paddingEnd="@dimen/card_content_padding"
                 android:paddingBottom="@dimen/card_content_large_padding"
                 android:textSize="@dimen/card_large_title_text_size"
                 tools:text="June" />

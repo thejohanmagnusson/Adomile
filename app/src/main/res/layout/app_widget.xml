@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_container"
     android:layout_width="match_parent"
     android:layout_height="80dp"
@@ -67,7 +66,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/circle_work" />
+                android:background="@drawable/circle_work"
+                android:contentDescription="@string/trip_type_private"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -106,7 +106,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_ray_start_end_black_24dp"
-            android:alpha="@dimen/icon_active_opacity"/>
+            android:alpha="@dimen/icon_active_opacity"
+            android:contentDescription="trip_type_work"/>
 
         <TextView
             android:id="@+id/mileage"

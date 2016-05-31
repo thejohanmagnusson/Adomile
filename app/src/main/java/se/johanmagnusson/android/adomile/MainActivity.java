@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity
                    LogFragment.OnTripSelectedListener,
                    RegisterFragment.OnRegisterTripListener {
 
-    public static final String TAG = MainActivity.class.getName();
+    private static final String TAG = MainActivity.class.getName();
 
-    public static final int SUMMARY_PAGE = 0;
-    public static final int REGISTER_PAGE = 1;
-    public static final int LOG_PAGE = 2;
-    public static final String KEY_SELECTED_TAB = "selected_tab";
+    private static final int SUMMARY_PAGE = 0;
+    private static final int REGISTER_PAGE = 1;
+    private static final int LOG_PAGE = 2;
+    private static final String KEY_SELECTED_TAB = "selected_tab";
 
     public static final String ACTION_WIDGET_UPDATE= "se.johanmagnusson.android.adomile.action.WIDGET_UPDATE";
 
@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public class TripCalculationTask extends AsyncTask<Integer, Void, Bundle> {
+    private class TripCalculationTask extends AsyncTask<Integer, Void, Bundle> {
 
         @Override
         protected Bundle doInBackground(Integer... parameter) {

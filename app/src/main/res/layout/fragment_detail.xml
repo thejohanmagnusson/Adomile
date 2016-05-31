@@ -18,7 +18,8 @@
             android:layout_gravity="center_vertical"
             android:paddingTop="@dimen/content_space"
             android:paddingBottom="@dimen/content_space"
-            android:layout_marginLeft="@dimen/icon_horizontal_margin">
+            android:layout_marginLeft="@dimen/icon_horizontal_margin"
+            android:layout_marginStart="@dimen/icon_horizontal_margin">
 
             <View
                 android:id="@+id/icon_shape"

@@ -23,7 +23,9 @@
             android:name=".TripDetailActivity"
             android:label="@string/trip_details"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity">
+
+        </activity>
 
         <provider
             android:name=".database.generated.TripProvider"

@@ -8,7 +8,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/icon_horizontal_margin">
+        android:layout_marginLeft="@dimen/icon_horizontal_margin"
+        android:layout_marginStart="@dimen/icon_horizontal_margin">
 
         <View
             android:id="@+id/icon_shape"
@@ -33,7 +34,8 @@
         android:layout_marginLeft="@dimen/icon_text_margin"
         android:layout_marginStart="@dimen/icon_text_margin"
         android:layout_marginRight="@dimen/icon_horizontal_margin"
-        android:layout_marginEnd="@dimen/icon_horizontal_margin">
+        android:layout_marginEnd="@dimen/icon_horizontal_margin"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -46,7 +48,6 @@
                 android:id="@+id/trip_destination"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/abc_primary_text_material_light"
                 tools:text="Destination"/>
 
             <TextView
@@ -67,7 +68,6 @@
                 android:id="@+id/trip_km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/abc_primary_text_material_light"
                 tools:text="34km"/>
 
             <TextView

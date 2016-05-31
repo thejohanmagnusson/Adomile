@@ -30,6 +30,7 @@
 
     <!-- Register view -->
     <string name="register_trip">Register trip</string>
+    <string name="previous_trip">Previous trip</string>
     <string name="date">Date</string>
     <string name="destination">Destination</string>
     <string name="mileage">Mileage</string>
@@ -41,7 +42,5 @@
 
     <!-- Log View -->
     <string name="empty_log_list">You have no registered trips yet</string>
-    <string name="appwidget_text">Puss puss :)</string>
-    <string name="add_widget">Add widget</string>
 
 </resources>

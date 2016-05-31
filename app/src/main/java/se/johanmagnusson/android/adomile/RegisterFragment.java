@@ -34,7 +34,7 @@ import se.johanmagnusson.android.adomile.database.TripProvider.Trips;
 
 public class RegisterFragment extends Fragment {
 
-    public static final String TAG = RegisterFragment.class.getName();
+    private static final String TAG = RegisterFragment.class.getName();
 
     private final String KEY_DATE = "date";
     private final String KEY_DESTINATION = "destination";
@@ -62,7 +62,7 @@ public class RegisterFragment extends Fragment {
     private long mLastTripId;
     private int mLastTripMileage = NO_LAST_TRIP_MILEAGE;
 
-    private SimpleDateFormat mDateFormat = Utility.getDateFormat();
+    private final SimpleDateFormat mDateFormat = Utility.getDateFormat();
 
     // Register trip callback
     public interface OnRegisterTripListener {
@@ -250,18 +250,16 @@ public class RegisterFragment extends Fragment {
     }
 
     private boolean isValidDestination(String destination) {
-        destination.trim();
 
-        if(destination != null && destination.length() > 0)
+        if(destination.trim().length() > 0)
             return true;
 
         return false;
     }
 
     private boolean isValidMileage(int lastMileage, String mileage) {
-        mileage.trim();
 
-        if(!mileage.isEmpty()) {
+        if(!mileage.trim().isEmpty()) {
             int mil = Integer.parseInt(mileage);
 
             if(mil > lastMileage || lastMileage == NO_LAST_TRIP_MILEAGE)
@@ -311,7 +309,7 @@ public class RegisterFragment extends Fragment {
         Cursor tripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(mLastTripId), null, null, null, null);
 
         if(tripCursor != null && tripCursor.moveToFirst()){
-            boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == Utility.WORK ? true : false;
+            boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == Utility.WORK;
 
             Drawable icon;
             String letter;
@@ -354,6 +352,7 @@ public class RegisterFragment extends Fragment {
                     String formattedStartMileage = String.format(getContext().getResources().getString(R.string.trip_mileage_summary), mileage - startMileage);
                     mTripCardKm.setText(formattedStartMileage);
                 }
+                previousTripCursor.close();
             }
             tripCursor.close();
 
