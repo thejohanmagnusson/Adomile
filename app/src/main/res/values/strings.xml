@@ -27,6 +27,8 @@
     <string name="trip_type_letter_private">P</string>
     <string name="trip_type_letter_work">W</string>
 
+    <!-- Main activity -->
+    <string name="trip_registered_message">Trip added</string>
 
     <!-- Register view -->
     <string name="register_trip">Register trip</string>

@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -164,6 +165,8 @@ public class MainActivity extends AppCompatActivity
     // RegisterFragment.OnRegisterTripListener
     @Override
     public void onTripRegistered() {
+        Toast.makeText(this, getString(R.string.trip_registered_message), Toast.LENGTH_SHORT).show();
+
         updateTripSummary();
     }
 
@@ -285,6 +288,9 @@ public class MainActivity extends AppCompatActivity
                     TripColumns.Date + " >= ? AND " + TripColumns.Date + " <= ?",
                     new String [] {fromDate, toDate},
                     TripColumns.Mileage + " ASC");
+
+            if(cursor == null)
+                return null;
 
             cursor.moveToFirst();
 
