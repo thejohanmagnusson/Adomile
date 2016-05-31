@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="destination_max_input_lenght">40</integer>
+    <integer name="mileage_max_input_lenght">4</integer>
+    <integer name="note_max_input_lenght">40</integer>
+</resources>
