@@ -64,7 +64,6 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         }
     }
 
-
     public TripListAdapter(Context context, OnClickListener onClickListener, View emptyView) {
         mContext = context;
         mOnClickListener = onClickListener;

@@ -4,7 +4,6 @@ package se.johanmagnusson.android.adomile;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -213,8 +212,9 @@ public class RegisterFragment extends Fragment {
         getLastTripData();
         setButtonState(isValidInput());
 
-        if(mLastTripId != CursorHelper.INVALID_ID)
-            updateTripCard();
+        // TODO: add in v2
+//        if(mLastTripId != CursorHelper.INVALID_ID)
+//            updateTripCard();
     }
 
     private void getLastTripData() {
@@ -287,7 +287,8 @@ public class RegisterFragment extends Fragment {
         if (uri != null) {
             mLastTripId = ContentUris.parseId(uri);
             clearInput();
-            updateTripCard();
+            // TODO: add in v2
+            //updateTripCard();
 
             // Callback to activity
             ((OnRegisterTripListener) getActivity()).onTripRegistered(isWork);
@@ -298,67 +299,6 @@ public class RegisterFragment extends Fragment {
         mDestination.setText("");
         mMileage.setText("");
         mNote.setText("");
-    }
-
-    private void updateTripCard() {
-
-        Cursor tripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(mLastTripId), null, null, null, null);
-
-        if(tripCursor != null && tripCursor.moveToFirst()){
-            boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == Utility.WORK;
-
-            Drawable icon;
-            String letter;
-
-            if(isWork) {
-                icon = Utility.getDrawable(getContext(), R.drawable.circle_work);
-                letter =getContext().getResources().getString(R.string.trip_type_letter_work);
-            }
-            else {
-                icon = Utility.getDrawable(getContext(), R.drawable.circle_private);
-                letter = getContext().getResources().getString(R.string.trip_type_letter_private);
-            }
-            mTripCardIconShape.setBackground(icon);
-            mTripCardIconText.setText(letter);
-            //todo: content description icon
-
-            String destination = tripCursor.getString(tripCursor.getColumnIndex(TripColumns.Destination));
-            mTripCardDestination.setText(destination);
-            mTripCardDestination.setContentDescription(destination);
-
-            String date = tripCursor.getString(tripCursor.getColumnIndex(TripColumns.Date));
-            mTripCardDate.setText(date);
-            mTripCardDate.setContentDescription(date);
-
-            int mileage = tripCursor.getInt(tripCursor.getColumnIndex(TripColumns.Mileage));
-            String formattedMileage = String.format(getContext().getResources().getString(R.string.trip_mileage), mileage);
-            mTripCardMileage.setText(formattedMileage);
-            mTripCardMileage.setContentDescription(formattedMileage);
-
-            // Get start destination for the trip to calculate distance traveled (the trip before this one)
-            long previousTripId = CursorHelper.getTripId(tripCursor);
-
-            if (previousTripId != CursorHelper.INVALID_ID) {
-                Cursor previousTripCursor = getActivity().getContentResolver().query(Trips.withId(previousTripId), null, null, null, null);
-
-                if(previousTripCursor != null && previousTripCursor.moveToFirst()) {
-                    int startMileage = tripCursor.getInt(tripCursor.getColumnIndex(TripColumns.Mileage));
-
-                    String formattedStartMileage = String.format(getContext().getResources().getString(R.string.trip_mileage_summary), mileage - startMileage);
-                    mTripCardKm.setText(formattedStartMileage);
-
-                    previousTripCursor.close();
-                }
-            }
-            tripCursor.close();
-
-            if(mTripCard.getVisibility() != View.VISIBLE)
-                mTripCard.setVisibility(View.VISIBLE);
-
-            // Animate card
-            mTripCard.animate().translationX(mContainer.getWidth()).setDuration(250).withLayer();
-
-        }
     }
 
     @Override
@@ -381,6 +321,68 @@ public class RegisterFragment extends Fragment {
 
         super.onSaveInstanceState(outState);
     }
+
+    // TODO: add in v2
+//    private void updateTripCard() {
+//
+//        Cursor tripCursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(mLastTripId), null, null, null, null);
+//
+//        if(tripCursor != null && tripCursor.moveToFirst()){
+//            boolean isWork = CursorHelper.getInt(tripCursor, TripColumns.TripType) == Utility.WORK;
+//
+//            Drawable icon;
+//            String letter;
+//
+//            if(isWork) {
+//                icon = Utility.getDrawable(getContext(), R.drawable.circle_work);
+//                letter =getContext().getResources().getString(R.string.trip_type_letter_work);
+//            }
+//            else {
+//                icon = Utility.getDrawable(getContext(), R.drawable.circle_private);
+//                letter = getContext().getResources().getString(R.string.trip_type_letter_private);
+//            }
+//            mTripCardIconShape.setBackground(icon);
+//            mTripCardIconText.setText(letter);
+//            //todo: content description icon
+//
+//            String destination = tripCursor.getString(tripCursor.getColumnIndex(TripColumns.Destination));
+//            mTripCardDestination.setText(destination);
+//            mTripCardDestination.setContentDescription(destination);
+//
+//            String date = tripCursor.getString(tripCursor.getColumnIndex(TripColumns.Date));
+//            mTripCardDate.setText(date);
+//            mTripCardDate.setContentDescription(date);
+//
+//            int mileage = tripCursor.getInt(tripCursor.getColumnIndex(TripColumns.Mileage));
+//            String formattedMileage = String.format(getContext().getResources().getString(R.string.trip_mileage), mileage);
+//            mTripCardMileage.setText(formattedMileage);
+//            mTripCardMileage.setContentDescription(formattedMileage);
+//
+//            // Get start destination for the trip to calculate distance traveled (the trip before this one)
+//            long previousTripId = CursorHelper.getTripId(tripCursor);
+//
+//            if (previousTripId != CursorHelper.INVALID_ID) {
+//                Cursor previousTripCursor = getActivity().getContentResolver().query(Trips.withId(previousTripId), null, null, null, null);
+//
+//                if(previousTripCursor != null && previousTripCursor.moveToFirst()) {
+//                    int startMileage = tripCursor.getInt(tripCursor.getColumnIndex(TripColumns.Mileage));
+//
+//                    String formattedStartMileage = String.format(getContext().getResources().getString(R.string.trip_mileage_summary), mileage - startMileage);
+//                    mTripCardKm.setText(formattedStartMileage);
+//
+//                    previousTripCursor.close();
+//                }
+//            }
+//            tripCursor.close();
+//
+//            if(mTripCard.getVisibility() != View.VISIBLE)
+//                mTripCard.setVisibility(View.VISIBLE);
+//
+//            // Animate card
+//            mTripCard.animate().translationX(mContainer.getWidth()).setDuration(250).withLayer();
+//
+//        }
+//    }
 }
 
 
