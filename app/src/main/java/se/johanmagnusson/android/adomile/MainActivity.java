@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -97,7 +98,9 @@ public class MainActivity extends AppCompatActivity
                     InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
 
                     try {
-                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                        View currentView = getCurrentFocus();
+                        if(currentView != null)
+                            inputMethodManager.hideSoftInputFromWindow(currentView.getWindowToken(), 0);
                     }
                     catch (NullPointerException ex){
                         FirebaseCrash.logcat(Log.ERROR, TAG, getString(R.string.crash_type_null));
