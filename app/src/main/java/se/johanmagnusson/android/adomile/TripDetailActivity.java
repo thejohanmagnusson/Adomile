@@ -11,6 +11,8 @@ public class TripDetailActivity extends AppCompatActivity {
 
     private static final String TAG = TripDetailActivity.class.getSimpleName();
 
+    private static final long INVALID_ID = -1L;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +23,19 @@ public class TripDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setTitle("Niagara");
-        toolbar.setSubtitle("6 Maj, 2016");
+        if(savedInstanceState == null) {
+            long id = getIntent().getLongExtra(TripDetailFragment.TRIP_ID_KEY, INVALID_ID);
+
+            TripDetailFragment fragment = new TripDetailFragment();
+
+            if(id != INVALID_ID) {
+                Bundle args = new Bundle();
+                args.putLong(TripDetailFragment.TRIP_ID_KEY, id);
+                fragment.setArguments(args);
+            }
+
+            getSupportFragmentManager().beginTransaction().add(R.id.detail_container, fragment).commit();
+        }
     }
 
     @Override
@@ -41,5 +54,4 @@ public class TripDetailActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

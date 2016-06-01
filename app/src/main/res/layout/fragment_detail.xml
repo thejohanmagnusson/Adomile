@@ -18,8 +18,8 @@
             android:layout_gravity="center_vertical"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:paddingBottom="@dimen/content_space"
-            android:layout_marginLeft="@dimen/list_item_horizontal_margin"
-            android:layout_marginStart="@dimen/list_item_horizontal_margin">
+            android:layout_marginLeft="@dimen/content_space"
+            android:layout_marginStart="@dimen/content_space">
 
             <View
                 android:id="@+id/icon_shape"
@@ -58,7 +58,7 @@
                 android:contentDescription="@string/date"/>
 
             <TextView
-                android:id="@+id/register_date"
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/list_item_icon_to_text_margin"

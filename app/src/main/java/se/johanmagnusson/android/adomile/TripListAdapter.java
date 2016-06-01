@@ -59,7 +59,7 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
 
             //move to the position of the cursor, get data and handle click
             mCursor.moveToPosition(position);
-            long id = mCursor.getLong(mCursor.getColumnIndex(TripColumns.PreviousTripId));
+            long id = mCursor.getLong(mCursor.getColumnIndex(TripColumns.ID));
             mOnClickListener.onClick(id, this);
         }
     }
