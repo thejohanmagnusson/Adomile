@@ -1,12 +1,16 @@
 package se.johanmagnusson.android.adomile;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,12 +28,7 @@ public class LogFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     private RecyclerView mTripList;
     private TripListAdapter mTripAdapter;
-    private int position = RecyclerView.NO_POSITION;
-
-    // Selected trip callback
-    public interface OnTripSelectedListener {
-        void onTripSelected(long id);
-    }
+    private int mPosition = RecyclerView.NO_POSITION;
 
     @Nullable
     @Override
@@ -46,8 +45,17 @@ public class LogFragment extends Fragment implements LoaderManager.LoaderCallbac
         mTripAdapter = new TripListAdapter(getActivity(), new TripListAdapter.OnClickListener() {
             @Override
             public void onClick(long id, TripListAdapter.ViewHolder viewHolder) {
-                ((OnTripSelectedListener) getActivity()).onTripSelected(id);
-                position = viewHolder.getAdapterPosition();
+                mPosition = viewHolder.getAdapterPosition();
+
+                // Detail intent with transition animation
+                Intent intent = new Intent(getActivity(), TripDetailActivity.class);
+                intent.putExtra(TripDetailFragment.TRIP_ID_KEY, id);
+
+                Pair iconShapeTrans = new Pair<>(viewHolder.iconShape, getString(R.string.transition_name_icon_shape));
+                Pair iconTextTrans = new Pair<>(viewHolder.iconText, getString(R.string.transition_name_icon_text));
+
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), iconShapeTrans, iconTextTrans);
+                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
             }
         }, emptyView);
 
@@ -83,8 +91,8 @@ public class LogFragment extends Fragment implements LoaderManager.LoaderCallbac
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mTripAdapter.swapCursor(data);
 
-        if (position != RecyclerView.NO_POSITION)
-            mTripList.smoothScrollToPosition(position);
+        if (mPosition != RecyclerView.NO_POSITION)
+            mTripList.smoothScrollToPosition(mPosition);
 
         updateEmptyView();
     }

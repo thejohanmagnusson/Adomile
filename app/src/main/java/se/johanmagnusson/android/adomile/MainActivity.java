@@ -33,7 +33,6 @@ import se.johanmagnusson.android.adomile.database.TripProvider;
 
 public class MainActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener,
-                   LogFragment.OnTripSelectedListener,
                    RegisterFragment.OnRegisterTripListener {
 
     private static final String TAG = MainActivity.class.getName();
@@ -116,10 +115,12 @@ public class MainActivity extends AppCompatActivity
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        if(savedInstanceState == null)
+        if(savedInstanceState == null) {
             mTabLayout.getTabAt(REGISTER_PAGE).select();
-        else
+        }
+        else {
             mTabLayout.getTabAt(savedInstanceState.getInt(KEY_SELECTED_TAB)).select();
+        }
     }
 
     @Override
@@ -188,13 +189,6 @@ public class MainActivity extends AppCompatActivity
 
         // Pre-calculate values for summary view and widget.
         new TripCalculationTask().execute(year, month);
-    }
-
-    // LogFragment.OnTripSelectedListener
-    @Override
-    public void onTripSelected(long id) {
-        Intent intent = new Intent(this, TripDetailActivity.class).putExtra(TripDetailFragment.TRIP_ID_KEY, id);
-        startActivity(intent);
     }
 
     /**

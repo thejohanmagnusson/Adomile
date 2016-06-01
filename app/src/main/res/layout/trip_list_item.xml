@@ -5,6 +5,7 @@
     android:layout_height="@dimen/list_item_height">
 
     <FrameLayout
+        android:id="@+id/icon_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -15,7 +16,8 @@
             android:id="@+id/icon_shape"
             android:layout_width="@dimen/list_item_icon_size"
             android:layout_height="@dimen/list_item_icon_size"
-            android:background="@drawable/circle_private" />
+            android:background="@drawable/circle_private"
+            android:transitionName="@string/transition_name_icon_shape"/>
 
         <TextView
             android:id="@+id/icon_text"
@@ -24,6 +26,7 @@
             android:layout_gravity="center"
             android:textSize="@dimen/title_text_size"
             android:textColor="@color/white"
+            android:transitionName="@string/transition_name_icon_text"
             tools:text="@string/trip_type_letter_private"/>
     </FrameLayout>
 

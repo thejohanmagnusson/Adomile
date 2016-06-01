@@ -6,6 +6,10 @@
     <string name="crash_type_index" translatable="false">Index out of bounds caught</string>
     <string name="crash_type_null" translatable="false">NPE caught</string>
 
+    <!-- Transitions -->
+    <string name="transition_name_icon_shape" translatable="false">transition_icon_shape</string>
+    <string name="transition_name_icon_text" translatable="false">transition_icon_text</string>
+
     <!-- Shared preferences -->
     <string name="pref_summary_file_key" translatable="false">se.johanmagnusson.android.adomile.SUMMARY_FILE_KEY</string>
     <string name="pref_month_key" translatable="false">month_key</string>
