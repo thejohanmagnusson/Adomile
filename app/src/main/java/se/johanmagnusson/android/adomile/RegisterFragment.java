@@ -226,7 +226,6 @@ public class RegisterFragment extends Fragment {
 
             mLastTripId = CursorHelper.getTripId(cursor);
             mLastTripMileage = CursorHelper.getTripMileage(cursor);
-
             cursor.close();
         }
         else {
@@ -287,6 +286,7 @@ public class RegisterFragment extends Fragment {
         if (uri != null) {
             mLastTripId = ContentUris.parseId(uri);
             clearInput();
+            getLastTripData();
             // TODO: add in v2
             //updateTripCard();
 
