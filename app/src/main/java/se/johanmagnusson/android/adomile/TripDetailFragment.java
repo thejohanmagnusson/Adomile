@@ -84,6 +84,10 @@ public class TripDetailFragment extends Fragment {
                     mMileage.setText(formattedMileage);
                     mMileage.setContentDescription(formattedMileage);
 
+                    String note = cursor.getString(cursor.getColumnIndex(TripColumns.Note));
+                    mNote.setText(note);
+                    mNote.setContentDescription(note);
+
                     cursor.close();
                 }
             }
