@@ -17,6 +17,8 @@ import se.johanmagnusson.android.adomile.database.TripProvider;
 
 public class TripDetailFragment extends Fragment {
 
+    public static final String TAG = TripDetailActivity.class.getSimpleName();
+
     public static final String TRIP_ID_KEY = "trip_id";
     public static final String TRIP_TYPE_KEY = "trip_type";
     public static final String DATE_KEY = "date";
@@ -32,6 +34,8 @@ public class TripDetailFragment extends Fragment {
     private TextView mDestination;
     private TextView mMileage;
     private TextView mNote;
+
+    private long mId;
 
     @Nullable
     @Override
@@ -49,9 +53,9 @@ public class TripDetailFragment extends Fragment {
             Bundle args = getArguments();
 
             if(args != null && args.containsKey(TRIP_ID_KEY)) {
-                long id = args.getLong(TRIP_ID_KEY);
+                mId = args.getLong(TRIP_ID_KEY);
 
-                Cursor cursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(id), null, null, null, null);
+                Cursor cursor = getActivity().getContentResolver().query(TripProvider.Trips.withId(mId), null, null, null, null);
 
                 if(cursor != null && cursor.moveToFirst()) {
                     mIsWork = CursorHelper.getInt(cursor, TripColumns.TripType) == Utility.WORK;
@@ -93,6 +97,8 @@ public class TripDetailFragment extends Fragment {
             }
         }
         else {
+            mId = savedInstanceState.getLong(TRIP_ID_KEY);
+
             mIsWork = savedInstanceState.getBoolean(TRIP_TYPE_KEY);
 
             Drawable icon = mIsWork ? Utility.getDrawable(getActivity(), R.drawable.circle_work) : Utility.getDrawable(getActivity(), R.drawable.circle_private);
@@ -115,6 +121,7 @@ public class TripDetailFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.putLong(TRIP_ID_KEY, mId);
         outState.putBoolean(TRIP_TYPE_KEY, mIsWork);
         outState.putString(DATE_KEY, mDate.getText().toString());
         outState.putString(DESTINATION_KEY, mDestination.getText().toString());
@@ -122,5 +129,9 @@ public class TripDetailFragment extends Fragment {
         outState.putString(NOTE_KEY, mNote.getText().toString());
 
         super.onSaveInstanceState(outState);
+    }
+
+    public long getTripId() {
+        return mId;
     }
 }

@@ -1,11 +1,15 @@
 package se.johanmagnusson.android.adomile;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+
+import se.johanmagnusson.android.adomile.database.TripProvider;
 
 public class TripDetailActivity extends AppCompatActivity {
 
@@ -34,8 +38,25 @@ public class TripDetailActivity extends AppCompatActivity {
                 fragment.setArguments(args);
             }
 
-            getSupportFragmentManager().beginTransaction().add(R.id.detail_container, fragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.detail_container, fragment, TripDetailFragment.TAG).commit();
         }
+    }
+
+    private void deleteTrip() {
+        TripDetailFragment fragment = (TripDetailFragment) getSupportFragmentManager().findFragmentByTag(TripDetailFragment.TAG);
+
+        if(fragment != null) {
+            long tripId = fragment.getTripId();
+            Uri uri = TripProvider.Trips.withId(tripId);
+
+            getContentResolver().delete(uri, null, null);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
     }
 
     @Override
@@ -49,6 +70,11 @@ public class TripDetailActivity extends AppCompatActivity {
             else
                 finish();
 
+            return true;
+        }
+        else if (id == R.id.action_delete) {
+            deleteTrip();
+            finish();
             return true;
         }
 

@@ -56,4 +56,7 @@
     <!-- Log View -->
     <string name="empty_log_list">You have no registered trips yet</string>
 
+    <!-- Menu actions -->
+    <string name="action_delete">Delete</string>
+
 </resources>
