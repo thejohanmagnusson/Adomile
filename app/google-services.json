@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "691244981176",
+    "firebase_url": "https://project-7364705685538783671.firebaseio.com",
+    "project_id": "project-7364705685538783671",
+    "storage_bucket": "project-7364705685538783671.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691244981176:android:4bed59d1dcead76a",
+        "android_client_info": {
+          "package_name": "se.johanmagnusson.android.adomile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691244981176-pft4rtemb1h5k9f2fcb0obha3hnjf1if.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzEsnvVdkY_Houpp51BbYvejqEZd1VZjw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
