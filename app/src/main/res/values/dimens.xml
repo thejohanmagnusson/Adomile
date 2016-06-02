@@ -1,7 +1,6 @@
 <resources>
     <!-- Material icon values -->
     <item name="icon_active_opacity" format="float" type="dimen">0.54</item>
-
     <item name="text_contrast_87" format="float" type="dimen">0.87</item>
 
     <!-- List item values -->
@@ -37,5 +36,10 @@
     <dimen name="widget_content_margin_top_bottom">4dp</dimen>
     <dimen name="widget_content_margin">8dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
+
+    <!-- Summary view -->
+    <dimen name="chart_size">250dp</dimen>
+    <dimen name="divider_width">48dp</dimen>
+    <dimen name="compensation_margin_bottom">100dp</dimen>
 
 </resources>
