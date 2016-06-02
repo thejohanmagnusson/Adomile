@@ -40,6 +40,5 @@
     <!-- Summary view -->
     <dimen name="chart_size">250dp</dimen>
     <dimen name="divider_width">48dp</dimen>
-    <dimen name="compensation_margin_bottom">100dp</dimen>
 
 </resources>
