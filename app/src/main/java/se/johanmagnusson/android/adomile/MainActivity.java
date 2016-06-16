@@ -68,12 +68,19 @@ public class MainActivity extends AppCompatActivity
     // Analytics
     private FirebaseAnalytics mFirebaseAnalytics;
 
+    public FirebaseAnalytics getFirebaseAnalytics() {
+        if( mFirebaseAnalytics == null)
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        return mFirebaseAnalytics;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = getFirebaseAnalytics();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
