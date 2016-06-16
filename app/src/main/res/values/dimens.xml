@@ -24,6 +24,7 @@
     <dimen name="card_content_padding">16dp</dimen>
     <dimen name="card_title_large_padding_top">24dp</dimen>
     <dimen name="card_title_padding_top">16dp</dimen>
+
     <dimen name="card_large_title_text_size">24sp</dimen>
 
     <!-- Other material text sizes -->

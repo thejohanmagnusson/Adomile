@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/title"
@@ -171,28 +171,12 @@
                 android:contentDescription="@string/trip_type_work" />
         </LinearLayout>
 
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/trip_card"
+        <FrameLayout
+            android:id="@+id/trip_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_edge_margin"
-            android:layout_marginStart="@dimen/card_edge_margin"
-            android:layout_marginRight="@dimen/card_edge_margin"
-            android:layout_marginEnd="@dimen/card_edge_margin"
-            android:layout_marginBottom="@dimen/card_edge_margin"
-            android:layout_marginTop="24dp"
-            android:layout_below="@id/button_container"
-            card_view:cardCornerRadius="@dimen/card_corner_radius">
+            android:layout_below="@id/button_container">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/trip_list_item"/>
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
+        </FrameLayout>
     </RelativeLayout>
 </ScrollView>

@@ -43,12 +43,13 @@
 
     <!-- Register view -->
     <string name="register_trip">Register trip</string>
-    <string name="previous_trip">Previous trip</string>
     <string name="date">Date</string>
     <string name="destination">Destination</string>
     <string name="mileage">Mileage</string>
     <string name="note">Note</string>
-    <string name="title_previous_trip">Previous trip</string>
+    <string name="info_card_title">Get started</string>
+    <string name="info_card_text">Add current mileage as your start destination</string>
+    <string name="trip_card_title">Previous trip</string>
 
     <!-- Summary view -->
     <string name="in_out_mileage" translatable="false">%1$d - %2$d</string>
